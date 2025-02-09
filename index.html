@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开发者 | 个人主页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, viewport-fit=cover">
+    <script defer src="//webviso.yestool.org/js/index.min.js"></script>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<!-- 新型导航栏 -->
+<header class="glass-nav">
+    <nav class="navbar">
+        <a href="#" class="brand hover-effect">BB0813-DevPortfolio</a>
+        <ul class="nav-links">
+            <li><a href="#home" class="nav-item hover-effect"><i class="fas fa-home"></i>首页</a></li>
+            <li><a href="#projects" class="nav-item hover-effect"><i class="fas fa-code"></i>项目</a></li>
+            <li><a href="#contact" class="nav-item hover-effect"><i class="fas fa-envelope"></i>联系</a></li>
+            <li>
+                <a href="html/friends.html" class="nav-item hover-effect">
+                    <i class="fas fa-handshake"></i>友链
+                </a>
+            </li>
+        </ul>
+        <div class="nav-controls">
+            <button id="theme-toggle" class="hover-effect">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="mobile-menu hover-effect">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- 网站主体内容 -->
+<main>
+    <!-- 首页 -->
+    <section id="home" class="hero-section">
+        <div class="hero-content">
+            <div class="floating-card">
+                <h1 class="dynamic-text">
+                    <span class="gradient-text">一个平平无奇的团队创始人</span>
+                    <br>
+                    <span class="gradient-text">也是一名个人开发者</span>
+                    <span class="animate-underline"></span>
+                </h1>
+                <p class="typewriter">正努力成为一名合格的全栈个人开发者和团队创始人</p>
+                <div class="scroller">
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 项目展示 -->
+    <section id="projects" class="projects-section">
+        <div class="section-container">
+            <div class="glass-card" data-scroll data-delay="0.1">
+                <h2 class="section-title"><i class="fas fa-code"></i>项目案例</h2>
+
+                <div class="projects-grid">
+                    <article class="project-card" data-scroll data-delay="0.2">
+                        <div class="card-header">
+                            <h3>响应式管理后台（吹的 等我真写出来再更新）</h3>
+                            <div class="tech-tags">
+                                <span>React</span>
+                                <span>TypeScript</span>
+                                <span>Ant Design</span>
+                            </div>
+                        </div>
+                        <p class="card-description">基于微前端的模块化管理系统，包含用户权限管理、数据可视化等功能模块</p>
+                        <!-- 修改项目案例按钮部分 -->
+                        <div class="card-actions">
+                            <button class="modern-btn code-btn">
+                                <i class="fas fa-code-branch"></i>
+                                <span>查看源码</span>
+                            </button>
+                            <button class="modern-btn demo-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                                <span>在线演示</span>
+                            </button>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-scroll data-delay="0.3">
+                        <div class="card-header">
+                            <h3>电商移动端H5（这也是吹的）</h3>
+                            <div class="tech-tags">
+                                <span>Vue3</span>
+                                <span>Vite</span>
+                                <span>Scss</span>
+                            </div>
+                        </div>
+                        <p class="card-description">高性能移动端SPA应用，集成支付网关和商品推荐系统</p>
+                        <!-- 修改项目案例按钮部分 -->
+                        <div class="card-actions">
+                            <button class="modern-btn code-btn">
+                                <i class="fas fa-code-branch"></i>
+                                <span>查看源码</span>
+                            </button>
+                            <button class="modern-btn demo-btn">
+                                <i class="fas fa-external-link-alt"></i>
+                                <span>在线演示</span>
+                            </button>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系版块 -->
+    <section id="contact" class="contact-section">
+        <div class="section-container">
+            <div class="glass-card contact-grid">
+                <!-- 标题部分 -->
+                <h2 class="section-title" data-scroll>
+                    <i class="fas fa-address-card"></i>
+                    <span class="gradient-text">联系方式</span>
+                </h2>
+
+                <!-- 联系方式内容 -->
+                <div class="contact-info" data-scroll data-delay="0.2">
+                    <!-- 邮箱 -->
+                    <div class="info-item hover-effect">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="contact-detail">
+                            <h3>电子邮箱</h3>
+                            <p class="copyable email-text">binbim_promax@163.com</p>
+                        </div>
+                    </div>
+
+
+                    <!-- GitHub -->
+                    <a href="https://github.com/BB0813" class="info-item hover-effect" target="_blank">
+                        <div class="contact-icon">
+                            <i class="fab fa-github" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="contact-detail">
+                            <h3>GitHub</h3>
+                            <p>我的GitHub主页</p>
+                        </div>
+                    </a>
+
+                    <!-- 微信 -->
+                    <div class="info-item hover-effect">
+                        <div class="contact-icon">
+                            <i class="fab fa-weixin" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="contact-detail">
+                            <h3>微信</h3>
+                            <p class="copyable">Your_WeChat_ID</p>
+                        </div>
+                    </div>
+
+                    <!-- QQ -->
+                    <div class="info-item hover-effect">
+                        <div class="contact-icon">
+                            <i class="fab fa-qq" style="color: var(--primary);"></i>
+                        </div>
+                        <div class="contact-detail">
+                            <h3>腾讯QQ</h3>
+                            <p class="copyable">1721822150</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- 页脚 -->
+<footer class="glass-footer">
+    <div class="footer-content">
+        <div class="social-links">
+            <a href="#" class="social-icon" target="_blank">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="#" class="social-icon" target="_blank">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="#" class="social-icon" target="_blank">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </div>
+        <div class="footer-info">
+            <p>&copy; <span id="currentYear"></span> CloudForgeTech. All rights reserved.</p>
+            本页访问人次:<span id="page_pv"></span> 本页访问人数:<span id="page_uv"></span>
+            <div class="tech-stack">
+                <i class="fab fa-html5"></i>
+                <i class="fab fa-css3-alt"></i>
+                <i class="fab fa-js"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <!-- 在 particles.min.js 的script标签后添加 -->
+    <!-- 将ScrollReveal加载顺序调整到其他脚本之前 -->
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+    <script>
+        // 初始化配置（建议放在JS文件）
+        ScrollReveal({
+            reset: false, // 避免重复触发
+            distance: '50px',
+            duration: 1000,
+            interval: 200
+        });
+
+        // 明确指定项目卡片的动画
+        ScrollReveal().reveal('.project-card', {
+            delay: 300,
+            origin: 'bottom',
+            opacity: 0, // 确保启用透明度动画
+            easing: 'cubic-bezier(0.5, 0, 0, 1)'
+        });
+    </script>
+
+
+    <script src="js/script.js"></script>
+</body>
+</html>
