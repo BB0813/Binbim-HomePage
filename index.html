@@ -3,226 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>开发者 | 个人主页</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0, viewport-fit=cover">
+    <title>Binbim的个人主页</title>
+    <!-- 替换单个CSS文件为多个模块化CSS文件 -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/utilities.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script defer src="//webviso.yestool.org/js/index.min.js"></script>
-<script defer src="//webviso.yestool.org/js/index.min.js"></script>
 </head>
 <body>
-<canvas id="particles"></canvas>
-
-<!-- 新型导航栏 -->
-<header class="glass-nav">
-    <nav class="navbar">
-        <a href="#" class="brand hover-effect">BB0813-DevPortfolio</a>
-        <ul class="nav-links">
-            <li><a href="#home" class="nav-item hover-effect"><i class="fas fa-home"></i>首页</a></li>
-            <li><a href="#projects" class="nav-item hover-effect"><i class="fas fa-code"></i>项目</a></li>
-            <li><a href="#contact" class="nav-item hover-effect"><i class="fas fa-envelope"></i>联系</a></li>
-            <li>
-                <a href="html/friends.html" class="nav-item hover-effect">
-                    <i class="fas fa-handshake"></i>友链
-                </a>
-            </li>
-        </ul>
-        <div class="nav-controls">
-            <button id="theme-toggle" class="hover-effect">
-                <i class="fas fa-moon"></i>
-            </button>
-            <div class="mobile-menu hover-effect">
-                <i class="fas fa-bars"></i>
-            </div>
-        </div>
-    </nav>
-</header>
-
-<!-- 网站主体内容 -->
-<main>
-    <!-- 首页 -->
-    <section id="home" class="hero-section">
-        <div class="hero-content">
-            <div class="floating-card">
-                <h1 class="dynamic-text">
-                    <span class="gradient-text">一个平平无奇的团队创始人</span>
-                    <br>
-                    <span class="gradient-text">也是一名个人开发者</span>
-                    <span class="animate-underline"></span>
-                </h1>
-                <p class="typewriter">正努力成为一名合格的全栈个人开发者和团队创始人</p>
-                <div class="scroller">
-                    <span>▼</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 项目展示 -->
-    <section id="projects" class="projects-section">
-        <div class="section-container">
-            <div class="glass-card" data-scroll data-delay="0.1">
-                <h2 class="section-title"><i class="fas fa-code"></i>项目案例</h2>
-
-                <div class="projects-grid">
-                    <article class="project-card" data-scroll data-delay="0.2">
-                        <div class="card-header">
-                            <h3>Binbim-QQBot</h3>
-                            <div class="tech-tags">
-                                <span>Python</span>
-                                <br>
-                                <span>Python-qq-botpy</span>
-                            </div>
-                            <br>
-                        </div>
-                        <p class="card-description">项目基于Python 使用了腾讯官方Python-SDK库编写 目前实现了频道机器人功能</p>
-                        <!-- 修改项目案例按钮部分 -->
-                        <div class="card-actions">
-                            <a href="https://github.com/BB0813/Binbim-QQBot" class="github-link modern-btn code-btn">项目跳转</a>
-                        </div>
-                    </article>
-
-                    <!-- 项目案例模板
-                    <article class="project-card" data-scroll data-delay="0.3">
-                        <div class="card-header">
-                            <h3>电商移动端H5（这也是吹的）</h3>
-                            <div class="tech-tags">
-                                <span>Vue3</span>
-                                <span>Vite</span>
-                                <span>Scss</span>
-                            </div>
-                        </div>
-                        <p class="card-description">高性能移动端SPA应用，集成支付网关和商品推荐系统</p>
-                        修改项目案例按钮部分
-                        <div class="card-actions">
-                            <button class="modern-btn code-btn">
-                                <i class="fas fa-code-branch"></i>
-                                <span>查看源码</span>
-                            </button>
-                            <button class="modern-btn demo-btn">
-                                <i class="fas fa-external-link-alt"></i>
-                                <span>在线演示</span>
-                            </button>
-                        </div>
-                    </article>
-                    -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 联系版块 -->
-    <section id="contact" class="contact-section">
-        <div class="section-container">
-            <div class="glass-card contact-grid">
-                <!-- 标题部分 -->
-                <h2 class="section-title" data-scroll>
-                    <i class="fas fa-address-card"></i>
-                    <span class="gradient-text">联系方式</span>
-                </h2>
-
-                <!-- 联系方式内容 -->
-                <div class="contact-info" data-scroll data-delay="0.2">
-                    <!-- 邮箱 -->
-                    <div class="info-item hover-effect">
-                        <div class="contact-icon">
-                            <i class="fas fa-envelope" style="color: var(--primary);"></i>
-                        </div>
-                        <div class="contact-detail">
-                            <h3>电子邮箱</h3>
-                            <p class="copyable email-text">binbim_promax@163.com</p>
-                        </div>
-                    </div>
-
-
-                    <!-- GitHub -->
-                    <a href="https://github.com/BB0813" class="info-item hover-effect" target="_blank">
-                        <div class="contact-icon">
-                            <i class="fab fa-github" style="color: var(--primary);"></i>
-                        </div>
-                        <div class="contact-detail">
-                            <h3>GitHub</h3>
-                            <p>我的GitHub主页</p>
-                        </div>
-                    </a>
-
-                    <!-- 微信 -->
-                    <div class="info-item hover-effect">
-                        <div class="contact-icon">
-                            <i class="fab fa-weixin" style="color: var(--primary);"></i>
-                        </div>
-                        <div class="contact-detail">
-                            <h3>微信</h3>
-                            <p class="copyable">Your_WeChat_ID</p>
-                        </div>
-                    </div>
-
-                    <!-- QQ -->
-                    <div class="info-item hover-effect">
-                        <div class="contact-icon">
-                            <i class="fab fa-qq" style="color: var(--primary);"></i>
-                        </div>
-                        <div class="contact-detail">
-                            <h3>腾讯QQ</h3>
-                            <p class="copyable">1721822150</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-
-    <!-- 页脚 -->
-<footer class="glass-footer">
-    <div class="footer-content">
-        <div class="social-links">
-            <a href="#" class="social-icon" target="_blank">
-                <i class="fab fa-github"></i>
-            </a>
-            <a href="#" class="social-icon" target="_blank">
-                <i class="fab fa-linkedin"></i>
-            </a>
-            <a href="#" class="social-icon" target="_blank">
-                <i class="fab fa-twitter"></i>
-            </a>
-        </div>
-        <div class="footer-info">
-            <p>&copy; <span id="currentYear"></span> CloudForgeTech. All rights reserved.</p>
-            本页访问人次:<span id="page_pv"></span> 本页访问人数:<span id="page_uv"></span>
-            <div class="tech-stack">
-                <i class="fab fa-html5"></i>
-                <i class="fab fa-css3-alt"></i>
-                <i class="fab fa-js"></i>
-            </div>
-        </div>
+    <div class="preloader">
+        <div class="loader"></div>
     </div>
-</footer>
+    <div class="scroll-indicator"></div>
+    <div class="theme-switch">
+        <i class="fas fa-moon"></i>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <!-- 在 particles.min.js 的script标签后添加 -->
-    <!-- 将ScrollReveal加载顺序调整到其他脚本之前 -->
-    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
-    <script>
-        // 初始化配置（建议放在JS文件）
-        ScrollReveal({
-            reset: false, // 避免重复触发
-            distance: '50px',
-            duration: 1000,
-            interval: 200
-        });
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Portfolio</div>
+                <ul class="nav-links">
+                    <li><a href="#home" class="active">首页</a></li>
+                    <li><a href="#about">关于我</a></li>
+                    <li><a href="#skills">技能</a></li>
+                    <li><a href="#projects">项目</a></li>
+                    <li><a href="#contact">联系我</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </div>
+    </header>
 
-        // 明确指定项目卡片的动画
-        ScrollReveal().reveal('.project-card', {
-            delay: 300,
-            origin: 'bottom',
-            opacity: 0, // 确保启用透明度动画
-            easing: 'cubic-bezier(0.5, 0, 0, 1)'
-        });
-    </script>
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="animate-text">你好，我是 <span class="highlight">Binbim</span></h1>
+                <h2 class="animate-text delay-1">全栈开发工程师&运维</h2>
+                <p class="animate-text delay-2">正在努力自学前后端&软硬件运维</p>
+                <div class="hero-buttons animate-text delay-3">
+                    <a href="#projects" class="btn primary-btn">查看作品</a>
+                    <a href="#contact" class="btn secondary-btn">联系我</a>
+                </div>
+                <div class="social-icons animate-text delay-4">
+                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-dribbble"></i></a>
+                </div>
+            </div>
+            <div class="hero-image animate-image">
+                <img src="https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640" alt="个人照片">
+            </div>
+        </div>
+    </section>
 
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>关于我</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="images/about.svg" alt="关于我">
+                </div>
+                <div class="about-text">
+                    <h3>我是谁？</h3>
+                    <p>我是一名来自广西的职高计算机系高二学生</p>
+                    <h3>我的经历</h3>
+                    <p>多次组建团队，团队涉猎范畴广泛，如IDC、PC软件开发、网页开发</p>
+                    <h3>我的目标</h3>
+                    <p>我致力于不断学习新技术，提升自己的技能水平，同时创造出既美观又实用的数字产品，为用户带来愉悦的体验。</p>
+                    <div class="about-buttons">
+                        <a href="#" class="btn primary-btn">下载简历</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <script src="js/script.js"></script>
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header">
+                <h2>我的技能</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="skills-content">
+                <div class="skill-category">
+                    <h3>前端开发</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>HTML5</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="15"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>CSS3</span>
+                                <span>10%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="10"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>JavaScript</span>
+                                <span>5%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="5"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>React</span>
+                                <span>1%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>其他技能</h3>
+                    <div class="skill-items">
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>UI/UX设计</span>
+                                <span>5%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="5"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>Node.js</span>
+                                <span>1%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="1"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>Git</span>
+                                <span>5%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="5"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>响应式设计</span>
+                                <span>3%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-progress="3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <div class="container">
+            <div class="section-header">
+                <h2>我的项目</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="project-filters">
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="web">网站</button>
+                <button class="filter-btn" data-filter="app">应用</button>
+                <button class="filter-btn" data-filter="design">设计</button>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card" data-category="web">
+                    <div class="project-image">
+                        <img src="images/project1.svg" alt="个人主页">
+                    </div>
+                    <div class="project-info">
+                        <h3>个人主页</h3>
+                        <p>使用HTML+CSS+JavaScript开发的个人主页，包含响应式设计和用户友好的界面。</p>
+                        <div class="project-tags">
+                            <span>HTML</span>
+                            <span>CSS</span>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="app">
+                    <div class="project-image">
+                        <img src="images/project2.svg" alt="工具箱">
+                    </div>
+                    <div class="project-info">
+                        <h3>PIPlist-Query</h3>
+                        <p>一个针对Python初学者的简易工具箱</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>Python-tkinter库</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://bb0813.github.io/PIPlist-Query/" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://github.com/BB0813/PIPlist-Query" target="_blank"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card" data-category="app">
+                    <div class="project-image">
+                        <img src="images/project3.svg" alt="QQBot框架">
+                    </div>
+                    <div class="project-info">
+                        <h3>Binbim-QQBot</h3>
+                        <p>基于QQ-Botpy开发的QQ频道机器人成品框架</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>QQ-Botpy</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                            <a href="https://github.com/BB0813/Binbim-QQBot" target="_blank"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="projects-more">
+                <a href="#" class="btn primary-btn">查看更多项目</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>联系我</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>联系方式</h3>
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>邮箱</h4>
+                            <p>binbim_promax@163.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-qq"></i>
+                        <div>
+                            <h4>QQ</h4>
+                            <p>1721822150</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <div>
+                            <h4>GitHub</h4>
+                            <a href="https://github.com/BB0813" class="btn primary-btn">我的GitHub</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>关于我</h3>
+                    <p>我是一名全栈开发工程师&运维，正在努力自学前后端开发&软硬件运维。</p>
+                </div>
+                <div class="footer-column">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#about">关于我</a></li>
+                        <li><a href="#skills">技能</a></li>
+                        <li><a href="#projects">项目</a></li>
+                        <li><a href="#contact">联系我</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>联系方式</h3>
+                    <p><i class="fas fa-envelope"></i>binbim_promax@163.com</p>
+                    <p><i class="fab fa-qq"></i>1721822150</p>
+                    <p><i class="fab fa-github"></i>BB0813</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023-2025 Binbim的个人主页. 保留所有权利.</p>
+            </div>
+            <!-- Webviso 访问统计 -->
+            <div class="footer-bottom">
+                <p>本页访问人次：<span id="page_pv"></span> 本页访问人数：<span id="page_uv"></span></p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="#home" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script src="js/main.js"></script>
 </body>
 </html>

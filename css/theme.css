@@ -1,0 +1,28 @@
+/* 暗色主题变量 */
+[data-theme="dark"] {
+    --primary-color: #6d8dff;
+    --dark-color: #f5f5f5;
+    --light-color: #1a1a2e;
+    --white-color: #121212;
+    --gray-light-color: #2a2a3a;
+    --shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .hamburger span {
+    background-color: var(--light-color);
+}
+
+[data-theme="dark"] .project-tags span {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group textarea {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--light-color);
+}
+
+[data-theme="dark"] .preloader {
+    background-color: var(--white-color);
+}

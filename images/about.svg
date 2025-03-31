@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+  <style>
+    .st0{fill:#4A6CF7;}
+    .st1{fill:#FFFFFF;}
+    .st2{fill:#0E1133;}
+    .st3{fill:#F5F5F5;}
+    .st4{fill:#E6E6E6;}
+  </style>
+  <rect class="st4" x="50" y="50" width="400" height="400" rx="20" ry="20"/>
+  <rect class="st0" x="80" y="100" width="340" height="30" rx="5" ry="5"/>
+  <rect class="st0" x="80" y="150" width="200" height="20" rx="5" ry="5"/>
+  <rect class="st3" x="80" y="190" width="340" height="10" rx="5" ry="5"/>
+  <rect class="st3" x="80" y="210" width="340" height="10" rx="5" ry="5"/>
+  <rect class="st3" x="80" y="230" width="340" height="10" rx="5" ry="5"/>
+  <rect class="st3" x="80" y="250" width="200" height="10" rx="5" ry="5"/>
+  <rect class="st0" x="80" y="280" width="200" height="20" rx="5" ry="5"/>
+  <rect class="st3" x="80" y="320" width="340" height="10" rx="5" ry="5"/>
+  <rect class="st3" x="80" y="340" width="340" height="10" rx="5" ry="5"/>
+  <rect class="st3" x="80" y="360" width="200" height="10" rx="5" ry="5"/>
+  <circle class="st0" cx="400" cy="400" r="30"/>
+  <path class="st1" d="M390,400l5,10l15-20" stroke="white" stroke-width="3" fill="none"/>
+</svg>
