@@ -31,6 +31,48 @@
     }
 }
 
+@keyframes gradientShift {
+    0%, 100% { 
+        background-position: 0% 50%; 
+    }
+    50% { 
+        background-position: 100% 50%; 
+    }
+}
+
+@keyframes highlightGlow {
+    from { 
+        box-shadow: 0 0 5px rgba(255, 107, 107, 0.5); 
+    }
+    to { 
+        box-shadow: 0 0 20px rgba(78, 205, 196, 0.8); 
+    }
+}
+
+@keyframes rotate {
+    to { 
+        transform: rotate(360deg); 
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); 
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 60px rgba(102, 126, 234, 0.4); 
+    }
+}
+
+@keyframes borderGlow {
+    0%, 100% {
+        filter: blur(0px) brightness(1);
+    }
+    50% {
+        filter: blur(2px) brightness(1.2);
+    }
+}
+
 .animate-text {
     opacity: 0;
     transform: translateY(20px);
