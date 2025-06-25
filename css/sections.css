@@ -104,13 +104,20 @@ nav {
     font-weight: 700;
     margin-bottom: 20px;
     line-height: 1.2;
-    color: rgba(255, 255, 255, 0.9);
-    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
-    background-size: 300% 300%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradientShift 3s ease infinite;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* 渐变文字效果（仅在支持的浏览器中生效） */
+@supports (-webkit-background-clip: text) {
+    .hero-content h1 {
+        background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+        background-size: 300% 300%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gradientShift 3s ease infinite;
+    }
 }
 
 .hero-content h2 {
