@@ -1,3 +1,29 @@
+// 性能优化工具函数
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // 等待DOM加载完成
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化
@@ -9,7 +35,38 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollAnimation();
     initScrollIndicator();
     initPreloader();
+    initImageLazyLoading();
+    initBackToTop();
 });
+
+// 返回顶部按钮
+function initBackToTop() {
+    // 创建返回顶部按钮
+    const backToTopBtn = document.createElement('button');
+    backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+    backToTopBtn.className = 'back-to-top';
+    backToTopBtn.setAttribute('aria-label', '返回顶部');
+    document.body.appendChild(backToTopBtn);
+    
+    // 节流处理滚动事件
+    const handleScroll = throttle(() => {
+        if (window.pageYOffset > 300) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
+        }
+    }, 100);
+    
+    // 点击返回顶部
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+}
 
 // 主题切换功能
 function initThemeSwitch() {
@@ -60,8 +117,8 @@ function initNavigation() {
         });
     });
     
-    // 滚动时导航栏效果
-    window.addEventListener('scroll', function() {
+    // 滚动时导航栏效果（使用节流优化性能）
+    const handleScroll = throttle(function() {
         const header = document.querySelector('header');
         header.classList.toggle('sticky', window.scrollY > 0);
         
@@ -83,30 +140,47 @@ function initNavigation() {
                 link.classList.add('active');
             }
         });
-    });
+    }, 16); // 约60fps
+    
+    window.addEventListener('scroll', handleScroll);
 }
 
 // 技能进度条动画
 function initSkillsAnimation() {
-    const skillSection = document.querySelector('#skills');
-    const progressBars = document.querySelectorAll('.skill-progress');
+    const skillBars = document.querySelectorAll('.skill-progress');
     
-    function checkScroll() {
-        const triggerBottom = window.innerHeight / 5 * 4;
-        const skillsTop = skillSection.getBoundingClientRect().top;
-        
-        if (skillsTop < triggerBottom) {
-            progressBars.forEach(progress => {
-                const value = progress.getAttribute('data-progress');
-                progress.style.width = value + '%';
+    if ('IntersectionObserver' in window) {
+        const skillObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const bar = entry.target;
+                    const percentage = bar.getAttribute('data-percentage');
+                    
+                    // 添加动画延迟
+                    setTimeout(() => {
+                        bar.style.width = percentage + '%';
+                        bar.classList.add('animated');
+                    }, 200);
+                    
+                    skillObserver.unobserve(bar);
+                }
             });
-            window.removeEventListener('scroll', checkScroll);
-        }
+        }, {
+            threshold: 0.3,
+            rootMargin: '0px 0px -20px 0px'
+        });
+        
+        skillBars.forEach(bar => {
+            bar.style.width = '0%';
+            skillObserver.observe(bar);
+        });
+    } else {
+        // 降级处理
+        skillBars.forEach(bar => {
+            const percentage = bar.getAttribute('data-percentage');
+            bar.style.width = percentage + '%';
+        });
     }
-    
-    window.addEventListener('scroll', checkScroll);
-    // 初始检查
-    checkScroll();
 }
 
 // 项目过滤功能
@@ -136,78 +210,119 @@ function initProjectFilters() {
 // 联系表单验证
 function initContactForm() {
     const form = document.querySelector('.contact-form form');
+    if (!form) return;
     
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // 获取表单字段
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const subject = document.getElementById('subject').value.trim();
-            const message = document.getElementById('message').value.trim();
-            
-            // 简单验证
-            if (name === '') {
-                showError('name', '请输入您的姓名');
-                return;
-            }
-            
-            if (email === '') {
-                showError('email', '请输入您的邮箱');
-                return;
-            } else if (!isValidEmail(email)) {
-                showError('email', '请输入有效的邮箱地址');
-                return;
-            }
-            
-            if (subject === '') {
-                showError('subject', '请输入消息主题');
-                return;
-            }
-            
-            if (message === '') {
-                showError('message', '请输入您的消息');
-                return;
-            }
-            
-            // 如果验证通过，可以在这里添加发送表单的代码
-            // 这里只是模拟提交成功
-            form.innerHTML = '<div class="success-message"><i class="fas fa-check-circle"></i><p>您的消息已成功发送！我会尽快回复您。</p></div>';
+    const inputs = form.querySelectorAll('input, textarea');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    // 防抖验证
+    const debouncedValidate = debounce(validateField, 300);
+    
+    inputs.forEach(input => {
+        input.addEventListener('blur', validateField);
+        input.addEventListener('input', (e) => {
+            clearError(e);
+            debouncedValidate(e);
         });
-    }
+    });
     
-    // 显示错误信息
-    function showError(fieldId, message) {
-        const field = document.getElementById(fieldId);
-        field.classList.add('error');
+    form.addEventListener('submit', handleSubmit);
+    
+    function validateField(e) {
+        const field = e.target;
+        const value = field.value.trim();
+        const fieldName = field.getAttribute('placeholder') || field.name;
         
-        // 移除之前的错误消息
-        const existingError = field.parentElement.querySelector('.error-message');
-        if (existingError) {
-            existingError.remove();
+        clearError(e);
+        
+        if (!value) {
+            showError(field, `${fieldName} 不能为空`);
+            return false;
         }
         
-        // 添加新的错误消息
-        const errorMessage = document.createElement('div');
-        errorMessage.className = 'error-message';
-        errorMessage.textContent = message;
-        field.parentElement.appendChild(errorMessage);
+        if (field.type === 'email' && !isValidEmail(value)) {
+            showError(field, '请输入有效的邮箱地址');
+            return false;
+        }
         
-        // 焦点事件移除错误状态
-        field.addEventListener('focus', function() {
-            field.classList.remove('error');
-            const error = field.parentElement.querySelector('.error-message');
-            if (error) {
-                error.remove();
-            }
-        });
+        if (field.name === 'message' && value.length < 10) {
+            showError(field, '消息内容至少需要10个字符');
+            return false;
+        }
+        
+        showSuccess(field);
+        return true;
     }
     
-    // 验证邮箱格式
+    function clearError(e) {
+        const field = e.target;
+        const errorElement = field.parentElement.querySelector('.error-message');
+        const successElement = field.parentElement.querySelector('.success-message');
+        
+        if (errorElement) errorElement.remove();
+        if (successElement) successElement.remove();
+        
+        field.classList.remove('error', 'success');
+    }
+    
+    function showError(field, message) {
+        field.classList.add('error');
+        const errorElement = document.createElement('span');
+        errorElement.className = 'error-message';
+        errorElement.textContent = message;
+        field.parentElement.appendChild(errorElement);
+    }
+    
+    function showSuccess(field) {
+        field.classList.add('success');
+        const successElement = document.createElement('span');
+        successElement.className = 'success-message';
+        successElement.innerHTML = '<i class="fas fa-check"></i>';
+        field.parentElement.appendChild(successElement);
+    }
+    
     function isValidEmail(email) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+    }
+    
+    function handleSubmit(e) {
+        e.preventDefault();
+        
+        // 禁用提交按钮防止重复提交
+        submitBtn.disabled = true;
+        submitBtn.textContent = '提交中...';
+        
+        let isValid = true;
+        inputs.forEach(input => {
+            if (!validateField({ target: input })) {
+                isValid = false;
+            }
+        });
+        
+        setTimeout(() => {
+            if (isValid) {
+                // 模拟提交成功
+                showSubmitSuccess();
+                form.reset();
+                inputs.forEach(input => clearError({ target: input }));
+            }
+            
+            // 恢复按钮状态
+            submitBtn.disabled = false;
+            submitBtn.textContent = '发送消息';
+        }, 1000);
+    }
+    
+    function showSubmitSuccess() {
+        const successDiv = document.createElement('div');
+        successDiv.className = 'submit-success';
+        successDiv.innerHTML = '<i class="fas fa-check-circle"></i> 消息发送成功！';
+        form.appendChild(successDiv);
+        
+        setTimeout(() => {
+            successDiv.remove();
+        }, 3000);
     }
 }
 
@@ -225,36 +340,57 @@ function initScrollAnimation() {
         }
     });
     
-    // 平滑滚动效果
+    // 使用Intersection Observer优化滚动动画
     const scrollElements = document.querySelectorAll('.animate-text, .animate-image');
     
-    function checkElements() {
-        const triggerBottom = window.innerHeight / 5 * 4;
+    if ('IntersectionObserver' in window) {
+        const animationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                    // 一次性动画，观察后即移除
+                    animationObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
         
         scrollElements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            
-            if (elementTop < triggerBottom) {
-                element.classList.add('show');
-            }
+            animationObserver.observe(element);
         });
+    } else {
+        // 降级处理：使用传统滚动事件
+        function checkElements() {
+            const triggerBottom = window.innerHeight / 5 * 4;
+            
+            scrollElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                
+                if (elementTop < triggerBottom) {
+                    element.classList.add('show');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkElements);
+        checkElements();
     }
-    
-    window.addEventListener('scroll', checkElements);
-    // 初始检查
-    checkElements();
 }
 
 function initScrollIndicator() {
     const scrollIndicator = document.querySelector('.scroll-indicator');
     
-    window.addEventListener('scroll', function() {
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrollPercent = (scrollTop / scrollHeight) * 100;
+    const updateScrollIndicator = throttle(() => {
+        const scrollTop = window.pageYOffset;
+        const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = Math.min((scrollTop / documentHeight) * 100, 100);
         
-        scrollIndicator.style.width = scrollPercent + '%';
-    });
+        scrollIndicator.style.transform = `scaleX(${scrollPercent / 100})`;
+    }, 16);
+    
+    window.addEventListener('scroll', updateScrollIndicator, { passive: true });
 }
 
 function initPreloader() {
@@ -265,4 +401,37 @@ function initPreloader() {
             preloader.classList.add('fade-out');
         }, 500);
     });
+}
+
+// 图片懒加载
+function initImageLazyLoading() {
+    const images = document.querySelectorAll('img[data-src]');
+    
+    if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    img.src = img.dataset.src;
+                    img.classList.remove('lazy');
+                    img.classList.add('loaded');
+                    imageObserver.unobserve(img);
+                }
+            });
+        }, {
+            rootMargin: '50px 0px',
+            threshold: 0.01
+        });
+        
+        images.forEach(img => {
+            img.classList.add('lazy');
+            imageObserver.observe(img);
+        });
+    } else {
+        // 降级处理：直接加载所有图片
+        images.forEach(img => {
+            img.src = img.dataset.src;
+            img.classList.add('loaded');
+        });
+    }
 }
