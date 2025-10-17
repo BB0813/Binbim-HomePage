@@ -3,216 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binbim的个人主页</title>
-    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-    <link rel="shortcut icon" href="images/favicon.svg" type="image/svg+xml">
-    <!-- 替换单个CSS文件为多个模块化CSS文件 -->
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/layout.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/sections.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/theme.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/utilities.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script defer src="//webviso.yestool.org/js/index.min.js"></script>
+    <title>Binbim - 全栈开发工程师</title>
+    <meta name="description" content="Binbim的个人主页 - 全栈开发工程师 & 运维专家">
+    <link rel="icon" href="https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640" type="image/svg+xml">
+    
+    <!-- 现代字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css">
+    
+    <!-- 新样式 -->
+    <link rel="stylesheet" href="css/modern.css">
 </head>
 <body>
-    <div class="preloader">
-        <div class="loader"></div>
-    </div>
-    <div class="scroll-indicator"></div>
-    <div class="theme-switch">
-        <i class="fas fa-moon"></i>
+    <!-- 加载动画 -->
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
     </div>
 
-    <header>
-        <div class="container">
-            <nav>
-                <div class="logo">Portfolio</div>
-                <ul class="nav-links">
-                    <li><a href="#home" class="active">首页</a></li>
-                    <li><a href="#about">关于我</a></li>
-                    <li><a href="#skills">技能</a></li>
-                    <li><a href="#projects">项目</a></li>
-                    <li><a href="#contact">联系我</a></li>
-                </ul>
-                <div class="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </nav>
-        </div>
-    </header>
-
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1 class="animate-text">你好，我是 <span class="highlight">Binbim</span></h1>
-                <h2 class="animate-text delay-1">全栈开发工程师 & 软硬件运维</h2>
-                <p class="animate-text delay-2">来自广西的职高计算机系学生，专注于前后端开发与软硬件运维技术</p>
-                <div class="hero-buttons animate-text delay-3">
-                    <a href="#projects" class="btn primary-btn">查看作品</a>
-                    <a href="#contact" class="btn secondary-btn">联系我</a>
-                </div>
-                <div class="social-icons animate-text delay-4">
-                    <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-dribbble"></i></a>
-                </div>
+    <!-- 导航栏 -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="#home" class="logo-text">Binbim</a>
             </div>
-            <div class="hero-image animate-image">
-                <img src="https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640" alt="个人照片">
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link active">首页</a>
+                <a href="#about" class="nav-link">关于</a>
+                <a href="#skills" class="nav-link">技能</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主页部分 -->
+    <section id="home" class="hero">
+        <!-- 粒子背景 -->
+        <div class="particles" id="particles"></div>
+        
+        <!-- 浮动emoji元素 -->
+        <div class="floating-elements">
+            <div class="floating-emoji" style="--emoji: '💻'; --delay: 0s; --duration: 6s; --x: 10%; --y: 20%;"></div>
+            <div class="floating-emoji" style="--emoji: '🚀'; --delay: 2s; --duration: 8s; --x: 80%; --y: 30%;"></div>
+            <div class="floating-emoji" style="--emoji: '⚡'; --delay: 4s; --duration: 7s; --x: 15%; --y: 70%;"></div>
+            <div class="floating-emoji" style="--emoji: '🔥'; --delay: 1s; --duration: 9s; --x: 85%; --y: 60%;"></div>
+            <div class="floating-emoji" style="--emoji: '💡'; --delay: 3s; --duration: 5s; --x: 25%; --y: 40%;"></div>
+            <div class="floating-emoji" style="--emoji: '🎯'; --delay: 5s; --duration: 10s; --x: 70%; --y: 80%;"></div>
+        </div>
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <p class="hero-subtitle">全栈开发工程师</p>
+                    <h1 class="hero-title">
+                        <span class="name-highlight">Binbim</span>
+                    </h1>
+                    <p class="hero-description">
+                        来自广西的职高计算机系学生<br>
+                        专注于前后端开发与软硬件运维技术
+                    </p>
+                    
+                    <!-- 技术标签云 -->
+                    <div class="tech-tags">
+                        <span class="tech-tag" data-color="#61dafb">React</span>
+                        <span class="tech-tag" data-color="#68a063">Node.js</span>
+                        <span class="tech-tag" data-color="#3776ab">Python</span>
+                        <span class="tech-tag" data-color="#f7df1e">JavaScript</span>
+                        <span class="tech-tag" data-color="#764abc">Vue</span>
+                        <span class="tech-tag" data-color="#00d4ff">CSS3</span>
+                        <span class="tech-tag" data-color="#ff6b6b">Express</span>
+                        <span class="tech-tag" data-color="#4ecdc4">MongoDB</span>
+                    </div>
+                    
+                    <!-- 打字机效果 -->
+                    <div class="typing-container">
+                        <span class="typing-text" id="typing-text"></span>
+                        <span class="typing-cursor">|</span>
+                    </div>
+                    <div class="hero-social">
+                        <a href="https://github.com/BB0813" class="social-link" aria-label="GitHub" target="_blank">
+                            <i data-lucide="github"></i>
+                        </a>
+                        <a href="https://qm.qq.com/q/jN4OII0UUM" class="social-link" aria-label="QQ" target="_blank">
+                            <i data-lucide="message-circle"></i>
+                        </a>
+                        <a href="https://x.com/Binbim_ProMax" class="social-link" aria-label="Twitter" target="_blank">
+                            <i data-lucide="twitter"></i>
+                        </a>
+                        <a href="mailto:binbim_promax@163.com" class="social-link" aria-label="邮箱">
+                            <i data-lucide="mail"></i>
+                        </a>
+                        <a href="https://t.me/Binbim_Pro" class="social-link" aria-label="Telegram" target="_blank">
+                            <i data-lucide="send"></i>
+                        </a>
+                        <a href="https://bb0813.github.io/Binbim-Blog/" class="social-link" aria-label="Blog" target="_blank">
+                            <i data-lucide="globe"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="image-wrapper">
+                        <img src="https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640" alt="Binbim" class="profile-image">
+                        <div class="image-bg"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- 关于部分 -->
     <section id="about" class="about">
         <div class="container">
             <div class="section-header">
-                <h2>关于我</h2>
-                <div class="underline"></div>
+                <h2 class="section-title">关于我</h2>
+                <p class="section-subtitle">了解我的背景和技能</p>
             </div>
             <div class="about-content">
-                <div class="about-image">
-                    <img data-src="images/about.svg" alt="关于我">
-                </div>
                 <div class="about-text">
-                    <h3>🎓 关于我</h3>
-                    <p>我是一名来自广西的职高计算机系高二学生，对编程和技术充满热情。虽然年轻，但我拥有强烈的学习欲望和实践精神，致力于在技术领域不断探索和成长。</p>
-                    
-                    <h3>💼 我的经历</h3>
-                    <p>在学习期间，我积极参与各种技术项目，多次组建和参与开发团队。我们的团队涉猎范畴广泛，包括：</p>
-                    <ul style="margin: 10px 0; padding-left: 20px;">
-                        <li>🌐 IDC服务器管理与运维</li>
-                        <li>💻 PC桌面软件开发</li>
-                        <li>🎨 响应式网页设计与开发</li>
-                        <li>⚙️ 系统运维与自动化部署</li>
-                        <li>🤖 AstrBot插件开发</li>
-                        <li>🎭 Live2D角色建模与动画</li>
-                        <li>🎨 Adobe全家桶创意设计</li>
-                    </ul>
-                    
-                    <h3>🎯 我的目标</h3>
-                    <p>我致力于成为一名优秀的全栈开发工程师，不断学习新技术，提升自己的技能水平。我希望能够创造出既美观又实用的数字产品，为用户带来愉悦的体验，同时也为技术社区贡献自己的力量。</p>
-                    
-                    <h3>🚀 技术理念</h3>
-                    <p>我相信技术应该服务于人，好的代码不仅要功能完善，更要易于维护和扩展。我注重代码质量，追求最佳实践，并始终保持对新技术的敏感度和学习热情。</p>
-                    <div class="about-buttons">
-                        <a href="#" class="btn primary-btn">下载简历</a>
+                    <h3 class="about-title">全栈开发工程师</h3>
+                    <p class="about-description">
+                        我是一名来自广西的职高计算机系高三学生，对编程和技术充满热情。
+                        虽然年轻，但我拥有强烈的学习欲望和实践精神，致力于在技术领域不断探索和成长。
+                    </p>
+                    <div class="skills-grid">
+                        <div class="skill-item">
+                            <div class="skill-icon">💻</div>
+                            <div class="skill-content">
+                                <h4>前端开发</h4>
+                                <p>HTML, CSS, JavaScript, React</p>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-icon">⚙️</div>
+                            <div class="skill-content">
+                                <h4>后端开发</h4>
+                                <p>Node.js, Python, 数据库</p>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="skill-icon">🤖</div>
+                            <div class="skill-content">
+                                <h4>运维技术</h4>
+                                <p>服务器管理, 自动化部署</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- 技能部分 -->
     <section id="skills" class="skills">
         <div class="container">
             <div class="section-header">
-                <h2>我的技能</h2>
-                <div class="underline"></div>
+                <h2 class="section-title">技能栈</h2>
+                <p class="section-subtitle">我的技术能力</p>
             </div>
             <div class="skills-content">
                 <div class="skill-category">
-                    <h3>前端开发</h3>
-                    <div class="skill-items">
-                        <div class="skill-item">
+                    <h3 class="category-title">前端技术</h3>
+                    <div class="skill-list">
+                        <div class="skill-bar">
                             <div class="skill-info">
-                                <span>HTML5</span>
-                                <span>15%</span>
+                                <span class="skill-name">HTML/CSS</span>
+                                <span class="skill-level">40%</span>
                             </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="15"></div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 40%"></div>
                             </div>
                         </div>
-                        <div class="skill-item">
+                        <div class="skill-bar">
                             <div class="skill-info">
-                                <span>CSS3</span>
-                                <span>10%</span>
+                                <span class="skill-name">JavaScript</span>
+                                <span class="skill-level">35%</span>
                             </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="10"></div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 35%"></div>
                             </div>
                         </div>
-                        <div class="skill-item">
+                        <div class="skill-bar">
                             <div class="skill-info">
-                                <span>JavaScript</span>
-                                <span>5%</span>
+                                <span class="skill-name">React</span>
+                                <span class="skill-level">30%</span>
                             </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="5"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>React</span>
-                                <span>1%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="1"></div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 30%"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h3>其他技能</h3>
-                    <div class="skill-items">
-                        <div class="skill-item">
+                    <h3 class="category-title">后端技术</h3>
+                    <div class="skill-list">
+                        <div class="skill-bar">
                             <div class="skill-info">
-                                <span>UI/UX设计</span>
-                                <span>5%</span>
+                                <span class="skill-name">Node.js</span>
+                                <span class="skill-level">40%</span>
                             </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="5"></div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 40%"></div>
                             </div>
                         </div>
-                        <div class="skill-item">
+                        <div class="skill-bar">
                             <div class="skill-info">
-                                <span>Node.js</span>
-                                <span>1%</span>
+                                <span class="skill-name">Python</span>
+                                <span class="skill-level">65%</span>
                             </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="1"></div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 65%"></div>
                             </div>
                         </div>
-                        <div class="skill-item">
+                        <div class="skill-bar">
                             <div class="skill-info">
-                                <span>Live2D建模</span>
-                                <span>3%</span>
+                                <span class="skill-name">数据库</span>
+                                <span class="skill-level">25%</span>
                             </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="3"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>Adobe创意设计</span>
-                                <span>2%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="2"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>Git</span>
-                                <span>5%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="5"></div>
-                            </div>
-                        </div>
-                        <div class="skill-item">
-                            <div class="skill-info">
-                                <span>响应式设计</span>
-                                <span>3%</span>
-                            </div>
-                            <div class="skill-bar">
-                                <div class="skill-progress" data-percentage="3"></div>
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 25%"></div>
                             </div>
                         </div>
                     </div>
@@ -221,147 +237,143 @@
         </div>
     </section>
 
-    <section id="projects" class="projects">
-        <div class="container">
-            <div class="section-header">
-                <h2>我的项目</h2>
-                <div class="underline"></div>
-            </div>
-            <div class="project-filters">
-                <button class="filter-btn active" data-filter="all">全部</button>
-                <button class="filter-btn" data-filter="web">网站</button>
-                <button class="filter-btn" data-filter="app">应用</button>
-                <button class="filter-btn" data-filter="design">设计</button>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card" data-category="web">
-                    <div class="project-image">
-                        <img data-src="images/project1.svg" alt="个人主页">
-                    </div>
-                    <div class="project-info">
-                        <h3>个人主页</h3>
-                        <p>使用HTML+CSS+JavaScript开发的个人主页，包含响应式设计和用户友好的界面。</p>
-                        <div class="project-tags">
-                            <span>HTML</span>
-                            <span>CSS</span>
-                            <span>JavaScript</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-                            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card" data-category="app">
-                    <div class="project-image">
-                        <img data-src="images/project2.svg" alt="工具箱">
-                    </div>
-                    <div class="project-info">
-                        <h3>PIPlist-Query</h3>
-                        <p>一个针对Python初学者的简易工具箱</p>
-                        <div class="project-tags">
-                            <span>Python</span>
-                            <span>Python-tkinter库</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="https://bb0813.github.io/PIPlist-Query/" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-                            <a href="https://github.com/BB0813/PIPlist-Query" target="_blank"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="project-card" data-category="app">
-                    <div class="project-image">
-                        <img data-src="images/project3.svg" alt="QQBot框架">
-                    </div>
-                    <div class="project-info">
-                        <h3>Binbim-QQBot</h3>
-                        <p>基于QQ-Botpy开发的QQ频道机器人成品框架</p>
-                        <div class="project-tags">
-                            <span>Python</span>
-                            <span>QQ-Botpy</span>
-                        </div>
-                        <div class="project-links">
-                            <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a>
-                            <a href="https://github.com/BB0813/Binbim-QQBot" target="_blank"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="projects-more">
-                <a href="#" class="btn primary-btn">查看更多项目</a>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2>联系我</h2>
-                <div class="underline"></div>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>联系方式</h3>
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <div>
-                            <h4>邮箱</h4>
-                            <p>binbim_promax@163.com</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-qq"></i>
-                        <div>
-                            <h4>QQ</h4>
-                            <p>1721822150</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-github"></i>
-                        <div>
-                            <h4>GitHub</h4>
-                            <a href="https://github.com/BB0813" class="btn primary-btn">我的GitHub</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer>
+    <!-- 页脚 -->
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-column">
-                    <h3>关于我</h3>
-                    <p>我是一名充满激情的全栈开发工程师&运维专家，专注于前后端开发、软硬件运维以及团队协作。虽然还在学习阶段，但我已经在多个技术领域积累了实践经验，并致力于持续提升技术能力。</p>
+                <div class="footer-text">
+                    <p>&copy; 2023-2025 Binbim. 保留所有权利。</p>
                 </div>
-                <div class="footer-column">
-                    <h3>快速链接</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">首页</a></li>
-                        <li><a href="#about">关于我</a></li>
-                        <li><a href="#skills">技能</a></li>
-                        <li><a href="#projects">项目</a></li>
-                        <li><a href="#contact">联系我</a></li>
-                    </ul>
+                <div class="footer-social">
+                    <a href="https://github.com/BB0813" class="social-link" aria-label="GitHub" target="_blank">
+                        <i data-lucide="github"></i>
+                    </a>
+                    <a href="https://qm.qq.com/q/jN4OII0UUM" class="social-link" aria-label="QQ" target="_blank">
+                        <i data-lucide="message-circle"></i>
+                    </a>
+                    <a href="https://x.com/Binbim_ProMax" class="social-link" aria-label="X" target="_blank">
+                        <i data-lucide="twitter"></i>
+                    </a>
+                    <a href="https://t.me/Binbim_Pro" class="social-link" aria-label="Telegram" target="_blank">
+                        <i data-lucide="send"></i>
+                    </a>
+                    <a href="https://bb0813.github.io/Binbim-Blog/" class="social-link" aria-label="Blog" target="_blank">
+                        <i data-lucide="book-open"></i>
+                    </a>
                 </div>
-                <div class="footer-column">
-                    <h3>联系方式</h3>
-                    <p><i class="fas fa-envelope"></i>binbim_promax@163.com</p>
-                    <p><i class="fab fa-qq"></i>1721822150</p>
-                    <p><i class="fab fa-github"></i>BB0813</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2023-2025 Binbim的个人主页. 保留所有权利.</p>
-            </div>
-            <!-- Webviso 访问统计 -->
-            <div class="footer-bottom">
-                <p>本页访问人次：<span id="page_pv"></span> 本页访问人数：<span id="page_uv"></span></p>
             </div>
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
+    <!-- JavaScript -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/modern.js"></script>
+    <script>
+        lucide.createIcons();
+        
+        // 移动端菜单切换
+        const navToggle = document.querySelector('.nav-toggle');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navToggle.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+            
+            // 点击菜单项时关闭菜单
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    navToggle.classList.remove('active');
+                    navMenu.classList.remove('active');
+                });
+            });
+        }
+        // 打字机效果
+        const typingTexts = [
+            '热爱编程的高中生',
+            '全栈开发学习者',
+            '技术探索者',
+            '来自广西的少年',
+            'Python技能45%',
+            'HTML/CSS技能40%',
+            'Node.js技能15%',
+            'JavaScript技能10%',
+            'React技能10%',
+            '运维工程师',
+            '云锻开源-CloudForge主创',
+            'Amethyst 紫水晶主创',
+            'Loomi Lair成员',
+            'Rolinsf-若林轻小说成员',
+            '持续学习中...'
+        ];
+        
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
+        
+        function typeWriter() {
+            const typingText = document.getElementById('typing-text');
+            const currentText = typingTexts[textIndex];
+            
+            if (isDeleting) {
+                typingText.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+                typingSpeed = 50;
+            } else {
+                typingText.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+                typingSpeed = 100;
+            }
+            
+            if (!isDeleting && charIndex === currentText.length) {
+                typingSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % typingTexts.length;
+                typingSpeed = 500;
+            }
+            
+            setTimeout(typeWriter, typingSpeed);
+        }
+        
+        // 页面加载完成后启动打字机效果
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(typeWriter, 1000);
+        });
+        
+        // 粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // 技术标签点击效果
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            const techTags = document.querySelectorAll('.tech-tag');
+            techTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    // 添加点击波纹效果
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-3px) scale(1.05)';
+                    }, 100);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

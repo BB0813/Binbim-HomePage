@@ -199,6 +199,165 @@ section {
     padding: 100px 0;
 }
 
+/* 打字机效果 */
+.typing-container {
+    margin: 30px 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary-color);
+    min-height: 1.5em;
+}
+
+.typing-text {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--primary-color);
+    animation: typing 3s steps(20) infinite alternate;
+}
+
+.typing-cursor {
+    display: inline-block;
+    animation: blink 1s infinite;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+@keyframes typing {
+    0% { width: 0; }
+    100% { width: 100%; }
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* 技术标签云 */
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 30px 0;
+    justify-content: center;
+}
+
+.tech-tag {
+    display: inline-block;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, var(--tag-color, #667eea) 0%, var(--tag-color-light, #764ba2) 100%);
+    color: white;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tech-tag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.tech-tag:hover::before {
+    left: 100%;
+}
+
+.tech-tag:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.tech-tag:nth-child(1) { --tag-color: #61dafb; --tag-color-light: #21759b; }
+.tech-tag:nth-child(2) { --tag-color: #68a063; --tag-color-light: #3c873a; }
+.tech-tag:nth-child(3) { --tag-color: #3776ab; --tag-color-light: #1e415e; }
+.tech-tag:nth-child(4) { --tag-color: #f7df1e; --tag-color-light: #d4be0e; color: #333; }
+.tech-tag:nth-child(5) { --tag-color: #764abc; --tag-color-light: #4fc08d; }
+.tech-tag:nth-child(6) { --tag-color: #00d4ff; --tag-color-light: #0099cc; }
+.tech-tag:nth-child(7) { --tag-color: #ff6b6b; --tag-color-light: #ff4757; }
+.tech-tag:nth-child(8) { --tag-color: #4ecdc4; --tag-color-light: #26d0ce; }
+
+/* 浮动emoji元素 */
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-emoji {
+    position: absolute;
+    font-size: 2rem;
+    animation: float var(--duration) ease-in-out infinite;
+    animation-delay: var(--delay);
+    left: var(--x);
+    top: var(--y);
+    opacity: 0.6;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.floating-emoji::before {
+    content: var(--emoji);
+    display: block;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    25% { transform: translateY(-20px) rotate(5deg); }
+    50% { transform: translateY(-10px) rotate(-5deg); }
+    75% { transform: translateY(-15px) rotate(3deg); }
+}
+
+/* 粒子背景效果 */
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    animation: particle-float 15s linear infinite;
+    opacity: 0.3;
+}
+
+@keyframes particle-float {
+    0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(100px);
+        opacity: 0;
+    }
+}
+
 .section-header {
     text-align: center;
     margin-bottom: 60px;
@@ -387,10 +546,122 @@ nav {
     transition: var(--transition);
 }
 
-/* 首页英雄区 */
-.hero {
-    padding: 180px 0 100px;
+/* 技能卡片悬浮效果 */
+.skill-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 25px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
     overflow: hidden;
+}
+
+.skill-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.skill-item:hover::before {
+    left: 100%;
+}
+
+.skill-item:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.skill-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    display: inline-block;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+.skill-item:nth-child(1) .skill-icon { animation-delay: 0s; }
+.skill-item:nth-child(2) .skill-icon { animation-delay: 0.2s; }
+.skill-item:nth-child(3) .skill-icon { animation-delay: 0.4s; }
+.skill-item:nth-child(4) .skill-icon { animation-delay: 0.6s; }
+
+/* 按钮悬浮效果增强 */
+.btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.btn:hover::after {
+    width: 300px;
+    height: 300px;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* 图片悬浮效果增强 */
+.image-wrapper {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.image-wrapper:hover {
+    transform: scale(1.05) rotate(2deg);
+}
+
+.profile-image {
+    border-radius: 50%;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+}
+
+.image-bg {
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+    background-size: 400% 400%;
+    border-radius: 50%;
+    z-index: -1;
+    animation: gradientShift 4s ease infinite;
+    opacity: 0.3;
 }
 
 .hero .container {
