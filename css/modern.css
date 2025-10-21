@@ -266,7 +266,7 @@ body {
 }
 /* 主页部分 */
 .hero {
-  padding: var(--spacing-xxl) 0;
+  padding: calc(4rem + var(--spacing-xxl)) 0 var(--spacing-xxl) 0;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
 }
 
@@ -363,21 +363,23 @@ body {
 
 .hero-social {
   display: flex;
-  gap: var(--spacing-md);
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-md);
 }
 
 .social-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
+  width: 3.5rem;
+  height: 3.5rem;
   background: var(--surface-color);
   border-radius: var(--radius-lg);
   color: var(--text-secondary);
   text-decoration: none;
   transition: var(--transition-normal);
   box-shadow: var(--shadow-sm);
+  margin: 0 0.25rem;
 }
 
 .social-link:hover {
@@ -428,7 +430,8 @@ body {
 /* 部分标题 */
 .section-header {
   text-align: center;
-  margin-bottom: var(--spacing-xxl);
+  margin-bottom: calc(var(--spacing-xxl) * 1.25);
+  padding-bottom: var(--spacing-lg);
 }
 
 .section-title {
@@ -448,7 +451,7 @@ body {
 
 /* 关于部分 */
 .about {
-  padding: var(--spacing-xxl) 0;
+  padding: calc(var(--spacing-xxl) * 1.5) 0;
   background: var(--background-color);
 }
 
@@ -469,24 +472,29 @@ body {
   font-size: var(--text-lg);
   color: var(--text-secondary);
   line-height: 1.8;
-  margin-bottom: var(--spacing-xl);
+  margin-bottom: calc(var(--spacing-xl) * 1.5);
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: var(--spacing-lg);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-xl);
+  margin-top: var(--spacing-md);
 }
 
 .skill-item {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-lg);
+  gap: var(--spacing-lg);
+  padding: var(--spacing-xl);
   background: var(--surface-color);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   transition: var(--transition-normal);
+  border: 1px solid var(--border-color);
 }
 
 .skill-item:hover {
@@ -510,17 +518,19 @@ body {
   font-size: var(--text-lg);
   font-weight: 600;
   color: var(--primary-color);
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--spacing-xs);
+  line-height: 1.4;
 }
 
 .skill-content p {
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   color: var(--text-secondary);
+  line-height: 1.6;
 }
 
 /* 技能部分 */
 .skills {
-  padding: var(--spacing-xxl) 0;
+  padding: calc(var(--spacing-xxl) * 1.5) 0;
   background: var(--surface-color);
 }
 
@@ -545,9 +555,16 @@ body {
 
 .skill-bar {
   background: var(--background-color);
-  padding: var(--spacing-md);
+  padding: var(--spacing-lg);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-normal);
+}
+
+.skill-bar:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .skill-info {
@@ -586,20 +603,32 @@ body {
 @media (max-width: 768px) {
   .skills-content {
     grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
+    gap: var(--spacing-xxl);
   }
   
   .skill-list {
-    gap: var(--spacing-md);
+    gap: var(--spacing-lg);
   }
   
   .skill-bar {
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md);
   }
   
   .category-title {
     font-size: var(--text-xl);
     text-align: center;
+    margin-bottom: var(--spacing-xl);
+  }
+  
+  .skills-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+  }
+  
+  .skill-item {
+    padding: var(--spacing-lg);
+    gap: var(--spacing-md);
   }
 }
 
@@ -876,7 +905,7 @@ body {
   }
 
   .hero {
-    padding: var(--spacing-xl) 0;
+    padding: calc(4rem + var(--spacing-xl)) 0 var(--spacing-xl) 0;
   }
 
   .hero-container {
@@ -935,12 +964,12 @@ body {
   }
 }
 
-@media (max-width: 480px) {
-  .hero-title {
-    font-size: var(--text-3xl);
+@media (max-width: 768px) {
+  .hero-content {
+    text-align: center;
   }
 
-  .section-title {
+  .hero-title {
     font-size: var(--text-3xl);
   }
 
@@ -952,6 +981,19 @@ body {
   .btn {
     width: 100%;
     max-width: 200px;
+  }
+
+  .hero-social {
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: var(--spacing-lg);
+  }
+
+  .social-link {
+    width: 3rem;
+    height: 3rem;
+    margin: 0.125rem;
   }
 
   .skills-grid {

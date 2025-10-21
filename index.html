@@ -12,8 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     
-    <!-- 图标 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css">
+    <!-- 图标通过JavaScript加载，无需CSS文件 -->
     
     <!-- 新样式 -->
     <link rel="stylesheet" href="css/modern.css">
@@ -289,55 +288,102 @@
                 });
             });
         }
-        // 打字机效果
+        // 优化的打字机效果
         const typingTexts = [
-            '热爱编程的高中生',
-            '全栈开发学习者',
-            '技术探索者',
-            '来自广西的少年',
-            'Python技能45%',
-            'HTML/CSS技能40%',
-            'Node.js技能15%',
-            'JavaScript技能10%',
-            'React技能10%',
-            '运维工程师',
-            '云锻开源-CloudForge主创',
-            'Amethyst 紫水晶主创',
-            'Loomi Lair成员',
-            'Rolinsf-若林轻小说成员',
-            '持续学习中...'
+            '热爱编程的高中生 💻',
+            '全栈开发学习者 🚀',
+            '技术探索者 🔍',
+            '来自广西的少年 🌟',
+            'Python 爱好者 🐍',
+            'Web 开发者 🌐',
+            '开源项目贡献者 ⭐',
+            '云锻开源-CloudForge 主创 ☁️',
+            'Amethyst 紫水晶 主创 💎',
+            'Loomi Lair 成员 🏠',
+            'Rolinsf-若林轻小说 成员 📚',
+            '持续学习中... 📖',
+            '梦想成为优秀的程序员 ✨'
         ];
         
         let textIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
         let typingSpeed = 100;
+        let isPaused = false;
+        
+        // 获取随机的打字速度，模拟真实打字
+        function getRandomTypingSpeed(isDeleting = false) {
+            if (isDeleting) {
+                return Math.random() * 30 + 25; // 25-55ms 删除速度
+            } else {
+                return Math.random() * 80 + 60; // 60-140ms 打字速度
+            }
+        }
+        
+        // 模拟打字停顿（在标点符号处）
+        function shouldPause(char) {
+            return [',', '.', '!', '?', ':', ';', '-'].includes(char);
+        }
         
         function typeWriter() {
+            if (isPaused) return;
+            
             const typingText = document.getElementById('typing-text');
             const currentText = typingTexts[textIndex];
             
             if (isDeleting) {
+                // 删除字符
                 typingText.textContent = currentText.substring(0, charIndex - 1);
                 charIndex--;
-                typingSpeed = 50;
+                typingSpeed = getRandomTypingSpeed(true);
             } else {
+                // 添加字符
+                const nextChar = currentText.charAt(charIndex);
                 typingText.textContent = currentText.substring(0, charIndex + 1);
                 charIndex++;
-                typingSpeed = 100;
+                typingSpeed = getRandomTypingSpeed(false);
+                
+                // 在标点符号处增加停顿
+                if (shouldPause(nextChar)) {
+                    typingSpeed += Math.random() * 300 + 200; // 额外停顿200-500ms
+                }
             }
             
+            // 完成当前文本的打字
             if (!isDeleting && charIndex === currentText.length) {
-                typingSpeed = 2000;
+                typingSpeed = Math.random() * 1000 + 1500; // 1.5-2.5秒停顿
                 isDeleting = true;
-            } else if (isDeleting && charIndex === 0) {
+            } 
+            // 完成删除，切换到下一个文本
+            else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 textIndex = (textIndex + 1) % typingTexts.length;
-                typingSpeed = 500;
+                typingSpeed = Math.random() * 300 + 200; // 200-500ms 切换延迟
             }
             
             setTimeout(typeWriter, typingSpeed);
         }
+        
+        // 添加打字机暂停/恢复功能
+        function pauseTyping() {
+            isPaused = true;
+        }
+        
+        function resumeTyping() {
+            if (isPaused) {
+                isPaused = false;
+                typeWriter();
+            }
+        }
+        
+        // 页面可见性变化时暂停/恢复打字机
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                pauseTyping();
+            } else {
+                resumeTyping();
+            }
+        });
         
         // 页面加载完成后启动打字机效果
         document.addEventListener('DOMContentLoaded', function() {

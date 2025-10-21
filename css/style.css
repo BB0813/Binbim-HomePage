@@ -86,6 +86,10 @@ img.loaded {
     0% {
         background-position: -200% 0;
     }
+    100% {
+        background-position: 200% 0;
+    }
+}
 
 /* 返回顶部按钮 */
 .back-to-top {
@@ -183,10 +187,6 @@ img.loaded {
     transform: none;
     box-shadow: var(--shadow);
 }
-    100% {
-        background-position: 200% 0;
-    }
-}
 
 .container {
     width: 100%;
@@ -199,46 +199,115 @@ section {
     padding: 100px 0;
 }
 
-/* 打字机效果 */
+/* 优化的打字机效果 */
 .typing-container {
-    margin: 30px 0;
-    font-size: 1.2rem;
-    font-weight: 500;
+    margin: 40px 0 50px 0;
+    font-size: 1.3rem;
+    font-weight: 600;
     color: var(--primary-color);
-    min-height: 1.5em;
+    min-height: 2em;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(74, 144, 226, 0.1) 0%, rgba(80, 200, 120, 0.1) 100%);
+    padding: 15px 20px;
+    border-radius: 12px;
+    border-left: 4px solid var(--primary-color);
+    box-shadow: 0 2px 10px rgba(74, 144, 226, 0.1);
+    transition: all 0.3s ease;
+}
+
+.typing-container:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(74, 144, 226, 0.15);
 }
 
 .typing-text {
     display: inline-block;
-    overflow: hidden;
     white-space: nowrap;
-    border-right: 2px solid var(--primary-color);
-    animation: typing 3s steps(20) infinite alternate;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    letter-spacing: 0.5px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
 }
 
 .typing-cursor {
     display: inline-block;
-    animation: blink 1s infinite;
-    color: var(--primary-color);
-    font-weight: bold;
+    width: 3px;
+    height: 1.2em;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    margin-left: 8px;
+    animation: smoothBlink 1.2s ease-in-out infinite;
+    border-radius: 2px;
+    position: relative;
+    top: 2px;
 }
 
-@keyframes typing {
-    0% { width: 0; }
-    100% { width: 100%; }
+/* 更自然的光标闪烁动画 */
+@keyframes smoothBlink {
+    0%, 45% { 
+        opacity: 1; 
+        transform: scaleY(1);
+    }
+    50%, 95% { 
+        opacity: 0.3; 
+        transform: scaleY(0.8);
+    }
+    100% { 
+        opacity: 1; 
+        transform: scaleY(1);
+    }
 }
 
-@keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .tech-tags {
+        margin: 25px 0 40px 0;
+        gap: 15px;
+    }
+    
+    .typing-container {
+        font-size: 1.1rem;
+        padding: 12px 16px;
+        margin: 30px 0 40px 0;
+    }
+    
+    .typing-text {
+        letter-spacing: 0.3px;
+    }
+    
+    .typing-cursor {
+        width: 2px;
+        height: 1.1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .tech-tags {
+        margin: 20px 0 35px 0;
+        gap: 12px;
+    }
+    
+    .tech-tag {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    .typing-container {
+        font-size: 1rem;
+        padding: 10px 14px;
+        margin: 25px 0 35px 0;
+    }
 }
 
 /* 技术标签云 */
 .tech-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
-    margin: 30px 0;
+    gap: 18px;
+    margin: 30px 0 50px 0;
     justify-content: center;
 }
 
