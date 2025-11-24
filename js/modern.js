@@ -8,6 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     initAnimations();
     initContactForm();
     initScrollEffects();
+    initFriendsData();
+    initDownloadLinks();
+    initCopyTemplate();
     
     // 初始化Lucide图标
     if (typeof lucide !== 'undefined') {
@@ -142,7 +145,7 @@ function initAnimations() {
     });
     
     // 卡片进入动画
-    const cards = document.querySelectorAll('.project-card, .skill-item, .contact-item');
+    const cards = document.querySelectorAll('.project-card, .skill-item, .contact-item, .friend-card');
     const cardObserver = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -198,6 +201,73 @@ function initScrollEffects() {
     
     window.addEventListener('scroll', () => {
         handleScrollAnimation();
+    });
+}
+
+function initFriendIcons() {
+    const imgs = document.querySelectorAll('.friend-logo[data-icon-srcs]');
+    imgs.forEach(img => {
+        if (img.dataset.iconInit) return;
+        img.dataset.iconInit = '1';
+        const list = img.getAttribute('data-icon-srcs').split(',').map(s => s.trim()).filter(Boolean);
+        let i = 0;
+        img.addEventListener('error', () => {
+            i++;
+            if (i < list.length) {
+                img.src = list[i];
+            }
+        });
+    });
+}
+
+function initDownloadLinks() {
+    const links = document.querySelectorAll('a[data-download]');
+    links.forEach(link => {
+        link.addEventListener('click', async (e) => {
+            e.preventDefault();
+            const url = link.getAttribute('href');
+            const filename = link.getAttribute('filename') || link.getAttribute('download') || 'download.txt';
+            try {
+                const res = await fetch(url);
+                if (!res.ok) throw new Error();
+                const blob = await res.blob();
+                const objectUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = objectUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                URL.revokeObjectURL(objectUrl);
+                a.remove();
+            } catch (err) {
+                link.setAttribute('download', filename);
+                window.location.href = url;
+            }
+        });
+    });
+}
+
+function initCopyTemplate() {
+    const btn = document.querySelector('[data-copy-template]');
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+        try {
+            const res = await fetch('friends-apply-template.txt');
+            const text = await res.text();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                await navigator.clipboard.writeText(text);
+            } else {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                ta.remove();
+            }
+            showNotification('模板已复制到剪贴板', 'success');
+        } catch (e) {
+            showNotification('复制失败，请稍后重试', 'error');
+        }
     });
 }
 
@@ -390,3 +460,31 @@ window.ModernPortfolio = {
     initAnimations,
     updateActiveNavLink
 };
+function initFriendsData() {
+    const grid = document.getElementById('friends-grid');
+    if (!grid) return;
+    grid.innerHTML = '<div class="friend-loading">正在加载友链...</div>';
+    fetch('friends.json')
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(list => {
+            if (!Array.isArray(list)) return;
+            grid.innerHTML = list.map(item => {
+                const icons = Array.isArray(item.icons) ? item.icons : [];
+                const first = icons[0] || 'images/project1.svg';
+                const srcs = icons.join(', ');
+                return `
+                <div class="friend-card">
+                    <img class="friend-logo" ${srcs ? `data-icon-srcs="${srcs}"` : ''} src="${first}" alt="${item.name}" loading="lazy">
+                    <div class="friend-info">
+                        <h4 class="friend-title">${item.name}</h4>
+                        <p class="friend-desc">${item.desc || ''}</p>
+                        <a class="friend-link" href="${item.url}" target="_blank" rel="noopener noreferrer">访问</a>
+                    </div>
+                </div>`;
+            }).join('');
+            initFriendIcons();
+        })
+        .catch(() => {
+            grid.innerHTML = '<div class="friend-loading">友链加载失败，请稍后重试</div>';
+        });
+}

@@ -1,0 +1,14 @@
+收件人：binbim_promax@163.com
+主题：[友链申请] <请填写站点名称>
+
+内容：
+站点名称：<示例：Binbim Blog>
+站点链接：<示例：https://example.com>
+站点简介：<一句话简介>
+头像地址：<示例：https://example.com/favicon.ico 或 https://example.com/logo.png>
+联系信息：<邮箱或其他联系方式>
+
+备注（可选）：
+- 所属分类：技术/社区/内容等
+- 是否长期维护：是/否
+- 其他说明：<可选>

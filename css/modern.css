@@ -503,15 +503,20 @@ body {
 }
 
 .skill-icon {
-  font-size: 2rem;
   width: 3rem;
   height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--primary-color);
-  color: white;
+  background: #fff;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+
+.skill-icon-img-large {
+  width: 2rem;
+  height: 2rem;
 }
 
 .skill-content h4 {
@@ -572,6 +577,24 @@ body {
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--spacing-sm);
+}
+
+.skill-name-with-icon {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.skill-icons {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.skill-icon-img {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: inline-block;
 }
 
 .skill-name {
@@ -708,6 +731,15 @@ body {
   font-size: var(--text-xs);
   font-weight: 500;
   border: 1px solid var(--border-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.tech-tag-img {
+  width: 1.125rem;
+  height: 1.125rem;
+  display: inline-block;
 }
 
 .project-links {
@@ -856,6 +888,148 @@ body {
 .footer-social .social-link:hover {
   background: white;
   color: var(--primary-color);
+}
+
+.friends {
+  padding: calc(var(--spacing-xxl) * 1.5) 0;
+  background: var(--background-color);
+}
+
+.friends-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-xl);
+  align-items: stretch;
+}
+
+.friend-loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.friend-card {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: var(--surface-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  transition: var(--transition-normal);
+}
+
+.friend-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.friend-logo {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: white;
+  border: 2px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.friend-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  justify-content: center;
+}
+
+.friend-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--primary-color);
+  line-height: 1.4;
+}
+
+.friend-desc {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-sm);
+}
+
+.friend-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 0.5rem 1rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: var(--transition-normal);
+}
+
+.friend-link:hover {
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.friend-apply {
+  margin-top: var(--spacing-xxl);
+  text-align: center;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: var(--spacing-xl);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.apply-list {
+  display: inline-block;
+  text-align: left;
+}
+
+.apply-list ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-top: var(--spacing-sm);
+}
+
+.apply-list a {
+  color: var(--primary-color);
+  text-decoration: none;
+  border-bottom: 1px solid var(--primary-color);
+}
+
+.apply-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+  margin-top: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+  .friend-card {
+    grid-template-columns: 2.75rem 1fr;
+    padding: var(--spacing-lg);
+  }
+  .friend-logo {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+}
+
+.footer-stats {
+  font-size: var(--text-sm);
+  opacity: 0.85;
+  margin-top: var(--spacing-xs);
 }
 
 /* 动画 */

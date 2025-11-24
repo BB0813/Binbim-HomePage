@@ -33,6 +33,7 @@
                 <a href="#home" class="nav-link active">首页</a>
                 <a href="#about" class="nav-link">关于</a>
                 <a href="#skills" class="nav-link">技能</a>
+                <a href="#friends" class="nav-link">友链</a>
             </div>
             <div class="nav-toggle" id="nav-toggle">
                 <span class="bar"></span>
@@ -71,14 +72,14 @@
                     
                     <!-- 技术标签云 -->
                     <div class="tech-tags">
-                        <span class="tech-tag" data-color="#61dafb">React</span>
-                        <span class="tech-tag" data-color="#68a063">Node.js</span>
-                        <span class="tech-tag" data-color="#3776ab">Python</span>
-                        <span class="tech-tag" data-color="#f7df1e">JavaScript</span>
-                        <span class="tech-tag" data-color="#764abc">Vue</span>
-                        <span class="tech-tag" data-color="#00d4ff">CSS3</span>
-                        <span class="tech-tag" data-color="#ff6b6b">Express</span>
-                        <span class="tech-tag" data-color="#4ecdc4">MongoDB</span>
+                        <span class="tech-tag" data-color="#61dafb"><img class="tech-tag-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/React-Dark.svg" alt="React" loading="lazy">React</span>
+                        <span class="tech-tag" data-color="#68a063"><img class="tech-tag-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/NodeJS-Dark.svg" alt="Node.js" loading="lazy">Node.js</span>
+                        <span class="tech-tag" data-color="#3776ab"><img class="tech-tag-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/Python-Dark.svg" alt="Python" loading="lazy">Python</span>
+                        <span class="tech-tag" data-color="#f7df1e"><img class="tech-tag-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/JavaScript.svg" alt="JavaScript" loading="lazy">JavaScript</span>
+                        <span class="tech-tag" data-color="#764abc"><img class="tech-tag-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/VueJS-Dark.svg" alt="Vue" loading="lazy">Vue</span>
+                        <span class="tech-tag" data-color="#00d4ff"><img class="tech-tag-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/CSS.svg" alt="CSS3" loading="lazy">CSS3</span>
+                        <span class="tech-tag" data-color="#ff6b6b"><img class="tech-tag-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/ExpressJS-Dark.svg" alt="Express" loading="lazy">Express</span>
+                        <span class="tech-tag" data-color="#4ecdc4"><img class="tech-tag-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/MongoDB.svg" alt="MongoDB" loading="lazy">MongoDB</span>
                     </div>
                     
                     <!-- 打字机效果 -->
@@ -117,6 +118,35 @@
         </div>
     </section>
 
+    <section id="friends" class="friends">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">友链</h2>
+                <p class="section-subtitle">欢迎交换友链，满足基本要求后通过邮箱联系我</p>
+            </div>
+            <div class="friends-grid" id="friends-grid" aria-live="polite">
+                <div class="friend-loading" id="friends-loading">正在加载友链...</div>
+            </div>
+            <div class="friend-apply">
+                <p>申请友链请发送邮件至 <a href="mailto:binbim_promax@163.com">binbim_promax@163.com</a></p>
+                <div class="apply-list">
+                    <p>请在邮件中提供以下信息：</p>
+                    <ul>
+                        <li>站点名称</li>
+                        <li>站点链接（HTTPS）</li>
+                        <li>站点简介（一句话）</li>
+                        <li>头像图标地址（favicon 或 PNG/SVG）</li>
+                        <li>联系邮箱或其他联系方式</li>
+                    </ul>
+                    <div class="apply-actions">
+                        <a href="friends-apply-template.txt" class="download-link" data-download download="友链申请模板.txt">下载邮件模板</a>
+                        <button class="btn btn-secondary" data-copy-template>复制模板</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- 关于部分 -->
     <section id="about" class="about">
         <div class="container">
@@ -133,14 +163,14 @@
                     </p>
                     <div class="skills-grid">
                         <div class="skill-item">
-                            <div class="skill-icon">💻</div>
+                            <div class="skill-icon"><img class="skill-icon-img-large" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/React-Dark.svg" alt="Frontend" loading="lazy"></div>
                             <div class="skill-content">
                                 <h4>前端开发</h4>
                                 <p>HTML, CSS, JavaScript, React</p>
                             </div>
                         </div>
                         <div class="skill-item">
-                            <div class="skill-icon">⚙️</div>
+                            <div class="skill-icon"><img class="skill-icon-img-large" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/NodeJS-Dark.svg" alt="Backend" loading="lazy"></div>
                             <div class="skill-content">
                                 <h4>后端开发</h4>
                                 <p>Node.js, Python, 数据库</p>
@@ -148,7 +178,7 @@
                         </div>
 
                         <div class="skill-item">
-                            <div class="skill-icon">🤖</div>
+                            <div class="skill-icon"><img class="skill-icon-img-large" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/Docker.svg" alt="DevOps" loading="lazy"></div>
                             <div class="skill-content">
                                 <h4>运维技术</h4>
                                 <p>服务器管理, 自动化部署</p>
@@ -173,7 +203,13 @@
                     <div class="skill-list">
                         <div class="skill-bar">
                             <div class="skill-info">
-                                <span class="skill-name">HTML/CSS</span>
+                                <div class="skill-name-with-icon">
+                                    <span class="skill-name">HTML/CSS</span>
+                                    <span class="skill-icons">
+                                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/HTML.svg" alt="HTML" loading="lazy">
+                                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/CSS.svg" alt="CSS" loading="lazy">
+                                    </span>
+                                </div>
                                 <span class="skill-level">40%</span>
                             </div>
                             <div class="progress-bar">
@@ -182,7 +218,12 @@
                         </div>
                         <div class="skill-bar">
                             <div class="skill-info">
-                                <span class="skill-name">JavaScript</span>
+                                <div class="skill-name-with-icon">
+                                    <span class="skill-name">JavaScript</span>
+                                    <span class="skill-icons">
+                                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/JavaScript.svg" alt="JavaScript" loading="lazy">
+                                    </span>
+                                </div>
                                 <span class="skill-level">35%</span>
                             </div>
                             <div class="progress-bar">
@@ -191,7 +232,12 @@
                         </div>
                         <div class="skill-bar">
                             <div class="skill-info">
-                                <span class="skill-name">React</span>
+                                <div class="skill-name-with-icon">
+                                    <span class="skill-name">React</span>
+                                    <span class="skill-icons">
+                                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/React-Dark.svg" alt="React" loading="lazy">
+                                    </span>
+                                </div>
                                 <span class="skill-level">30%</span>
                             </div>
                             <div class="progress-bar">
@@ -205,7 +251,12 @@
                     <div class="skill-list">
                         <div class="skill-bar">
                             <div class="skill-info">
-                                <span class="skill-name">Node.js</span>
+                                <div class="skill-name-with-icon">
+                                    <span class="skill-name">Node.js</span>
+                                    <span class="skill-icons">
+                                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/NodeJS-Dark.svg" alt="Node.js" loading="lazy">
+                                    </span>
+                                </div>
                                 <span class="skill-level">40%</span>
                             </div>
                             <div class="progress-bar">
@@ -214,7 +265,12 @@
                         </div>
                         <div class="skill-bar">
                             <div class="skill-info">
-                                <span class="skill-name">Python</span>
+                                <div class="skill-name-with-icon">
+                                    <span class="skill-name">Python</span>
+                                    <span class="skill-icons">
+                                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/Python-Dark.svg" alt="Python" loading="lazy">
+                                    </span>
+                                </div>
                                 <span class="skill-level">65%</span>
                             </div>
                             <div class="progress-bar">
@@ -223,7 +279,12 @@
                         </div>
                         <div class="skill-bar">
                             <div class="skill-info">
-                                <span class="skill-name">数据库</span>
+                                <div class="skill-name-with-icon">
+                                    <span class="skill-name">数据库</span>
+                                    <span class="skill-icons">
+                                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/tandpfun/skill-icons@latest/icons/MongoDB.svg" alt="Database" loading="lazy" onerror="this.src='https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg'">
+                                    </span>
+                                </div>
                                 <span class="skill-level">25%</span>
                             </div>
                             <div class="progress-bar">
@@ -242,6 +303,7 @@
             <div class="footer-content">
                 <div class="footer-text">
                     <p>&copy; 2023-2025 Binbim. 保留所有权利。</p>
+                    <div class="footer-stats">本页访问人次:<span id="page_pv"></span> 本页访问人数:<span id="page_uv"></span></div>
                 </div>
                 <div class="footer-social">
                     <a href="https://github.com/BB0813" class="social-link" aria-label="GitHub" target="_blank">
@@ -267,6 +329,7 @@
     <!-- JavaScript -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="js/modern.js"></script>
+    <script defer src="https://webviso.yestool.org/js/index.min.js"></script>
     <script>
         lucide.createIcons();
         
@@ -297,6 +360,7 @@
             'Python 爱好者 🐍',
             'Web 开发者 🌐',
             '开源项目贡献者 ⭐',
+            'AstrBot插件开发者 ⭐',
             '云锻开源-CloudForge 主创 ☁️',
             'Amethyst 紫水晶 主创 💎',
             'Loomi Lair 成员 🏠',

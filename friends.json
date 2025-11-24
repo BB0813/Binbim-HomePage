@@ -1,0 +1,33 @@
+[
+  {
+    "name": "Apanzinc",
+    "desc": "技术与生活分享",
+    "url": "https://apanzinc.top",
+    "icons": [
+      "https://icons.duckduckgo.com/ip3/apanzinc.top.ico",
+      "https://www.google.com/s2/favicons?sz=64&domain=apanzinc.top",
+      "images/project1.svg"
+    ]
+  },
+  {
+    "name": "Binbim-Blog",
+    "desc": "技术与学习记录",
+    "url": "https://bb0813.github.io/Binbim-Blog/",
+    "icons": [
+      "https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640",
+      "https://www.google.com/s2/favicons?sz=64&domain_url=https://bb0813.github.io/Binbim-Blog/",
+      "https://icons.duckduckgo.com/ip3/bb0813.github.io.ico",
+      "images/project2.svg"
+    ]
+  },
+  {
+    "name": "GitHub",
+    "desc": "开源与项目托管",
+    "url": "https://github.com/BB0813",
+    "icons": [
+      "https://icons.duckduckgo.com/ip3/github.com.ico",
+      "https://www.google.com/s2/favicons?sz=64&domain=github.com",
+      "images/project3.svg"
+    ]
+  }
+]
