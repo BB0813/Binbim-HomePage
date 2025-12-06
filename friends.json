@@ -29,5 +29,15 @@
       "https://www.google.com/s2/favicons?sz=64&domain=github.com",
       "images/project3.svg"
     ]
+  },
+  {
+    "name": "CarryRao-个人主页",
+    "desc": "全栈开发者 | 技术爱好者",
+    "url": "https://carryrao.top/",
+    "icons": [
+      "https://avatars.githubusercontent.com/u/148552102?v=4",
+      "https://avatars.githubusercontent.com/u/148552102?v=4",
+      "images/project4.svg"
+    ]
   }
 ]
