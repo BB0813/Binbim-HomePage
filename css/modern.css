@@ -533,126 +533,220 @@ body {
   line-height: 1.6;
 }
 
-/* 技能部分 */
+/* 技能部分 Bento Grid */
 .skills {
-  padding: calc(var(--spacing-xxl) * 1.5) 0;
-  background: var(--surface-color);
+    padding: var(--spacing-xl) 0;
+    background: var(--surface-color);
 }
 
-.skills-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: var(--spacing-xxl);
-}
-
-.category-title {
-  font-size: var(--text-2xl);
-  font-weight: 600;
-  color: var(--primary-color);
-  margin-bottom: var(--spacing-lg);
-}
-
-.skill-list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-}
-
-.skill-bar {
-  background: var(--background-color);
-  padding: var(--spacing-lg);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color);
-  transition: var(--transition-normal);
-}
-
-.skill-bar:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md);
-}
-
-.skill-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--spacing-sm);
-}
-
-.skill-name-with-icon {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.skill-icons {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.skill-icon-img {
-  width: 1.25rem;
-  height: 1.25rem;
-  display: inline-block;
-}
-
-.skill-name {
-  font-weight: 500;
-  color: var(--primary-color);
-}
-
-.skill-level {
-  font-size: var(--text-sm);
-  color: var(--text-secondary);
-  font-weight: 500;
-}
-
-.progress-bar {
-  height: 0.5rem;
-  background: var(--border-color);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-
-.progress {
-  height: 100%;
-  background: linear-gradient(90deg, var(--primary-color) 0%, var(--accent-color) 100%);
-  border-radius: var(--radius-sm);
-  transition: width 1s ease-out;
-}
-
-/* 移动端技能部分样式 */
-@media (max-width: 768px) {
-  .skills-content {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-xxl);
-  }
-  
-  .skill-list {
-    gap: var(--spacing-lg);
-  }
-  
-  .skill-bar {
-    padding: var(--spacing-md);
-  }
-  
-  .category-title {
-    font-size: var(--text-xl);
-    text-align: center;
-    margin-bottom: var(--spacing-xl);
-  }
-  
-  .skills-grid {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-lg);
-    margin-top: var(--spacing-lg);
-  }
-  
-  .skill-item {
-    padding: var(--spacing-lg);
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(150px, auto);
     gap: var(--spacing-md);
-  }
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* 卡片基础样式 */
+.tech-card {
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-md);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* 卡片尺寸变体 */
+.tech-card.large {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.tech-card.medium {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.tech-card.small {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.tech-card.wide {
+    grid-column: span 3;
+    grid-row: span 1;
+}
+
+/* 调整最后一行 */
+.tech-card.small:nth-last-child(2) {
+   grid-column: span 1;
+}
+.tech-card.wide:last-child {
+   grid-column: span 3;
+}
+
+/* Hover 效果 */
+.tech-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* 内容样式 */
+.tech-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    position: relative;
+    z-index: 1;
+}
+
+.tech-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    transition: transform 0.3s ease;
+}
+
+.tech-card:hover .tech-icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+.tech-name {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.tech-desc {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+    position: relative;
+    z-index: 1;
+}
+
+/* 背景大图标 */
+.card-bg-icon {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    opacity: 0.05;
+    transform: rotate(-15deg);
+    transition: transform 0.5s ease;
+    z-index: 0;
+}
+
+.card-bg-icon i {
+    width: 150px;
+    height: 150px;
+    color: var(--primary-color);
+}
+
+.tech-card:hover .card-bg-icon {
+    transform: rotate(0deg) scale(1.1);
+    opacity: 0.08;
+}
+
+/* 迷你标签 */
+.tech-tags-mini {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    position: relative;
+    z-index: 1;
+}
+
+.tech-tags-mini span {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 100px;
+    color: var(--text-secondary);
+}
+
+/* 图标组 */
+.icon-group {
+    display: flex;
+    align-items: center;
+}
+.icon-group .tech-icon {
+    position: relative;
+    z-index: 1;
+}
+.icon-group .tech-icon:not(:first-child) {
+    margin-left: -10px;
+    border: 2px solid var(--background-color);
+    border-radius: 50%;
+    z-index: 0;
+}
+
+/* 工具网格 */
+.tools-grid {
+    display: flex;
+    gap: var(--spacing-lg);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.tool-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    transition: background 0.2s;
+    cursor: pointer;
+}
+
+.tool-item:hover {
+    background: var(--surface-color);
+}
+
+.tool-item img {
+    width: 2rem;
+    height: 2rem;
+}
+
+.tool-item span {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* 响应式技能部分样式 */
+@media (max-width: 900px) {
+    .bento-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .tech-card.large {
+        grid-column: span 2;
+    }
+    .tech-card.wide {
+        grid-column: span 2;
+    }
+    .tech-card.small:nth-last-child(2) {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 600px) {
+    .bento-grid {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    .tech-card {
+        min-height: auto;
+    }
 }
 
 /* 项目部分 */

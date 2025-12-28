@@ -119,33 +119,8 @@ function updateActiveNavLink() {
 
 // 动画效果
 function initAnimations() {
-    // 技能条动画
-    const skillBars = document.querySelectorAll('.progress');
-    const observerOptions = {
-        threshold: 0.5,
-        rootMargin: '0px 0px -100px 0px'
-    };
-    
-    const skillObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const progressBar = entry.target;
-                const width = progressBar.style.width;
-                progressBar.style.width = '0%';
-                
-                setTimeout(() => {
-                    progressBar.style.width = width;
-                }, 200);
-            }
-        });
-    }, observerOptions);
-    
-    skillBars.forEach(bar => {
-        skillObserver.observe(bar);
-    });
-    
     // 卡片进入动画
-    const cards = document.querySelectorAll('.project-card, .skill-item, .contact-item, .friend-card');
+    const cards = document.querySelectorAll('.project-card, .skill-item, .contact-item, .friend-card, .tech-card');
     const cardObserver = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -160,6 +135,23 @@ function initAnimations() {
         card.style.transform = 'translateY(30px)';
         card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         cardObserver.observe(card);
+    });
+
+    // 初始化卡片辉光
+    initCardGlow();
+}
+
+// 卡片辉光效果
+function initCardGlow() {
+    const cards = document.querySelectorAll('.tech-card');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
     });
 }
 

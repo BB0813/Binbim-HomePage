@@ -6,21 +6,28 @@
 
 ## 功能特点
 
-- 响应式设计，适配各种设备屏幕
-- 亮色/暗色主题切换
-- 平滑滚动和动画效果
-- 项目展示和过滤功能
-- 技能进度条动态展示
-- 联系表单（模拟）
-- 访问统计功能
+- **响应式设计**：完美适配移动端、平板和桌面端
+- **现代化 UI**：
+  - Bento Grid（便当盒）风格的技术栈展示
+  - Glassmorphism（微磨砂）质感
+  - 流畅的交互动画与鼠标光影追踪
+- **个性化展示**：
+  - 动态打字机效果
+  - 粒子背景特效
+  - 技能与工具的深度展示（集成 TypeScript, Trae 等前沿工具）
+- **实用功能**：
+  - 友链展示与申请
+  - 访问统计
+  - 平滑滚动导航
 
 ## 技术栈
 
-- HTML5
-- CSS3 (模块化CSS)
-- JavaScript (原生)
-- Font Awesome 图标库
-- Google Fonts
+- **Core**: HTML5, CSS3 (CSS Variables, Grid/Flexbox), JavaScript (ES6+)
+- **Icons**: 
+  - [Lucide Icons](https://lucide.dev/)
+  - [Skill Icons](https://github.com/tandpfun/skill-icons)
+  - [LobeHub Icons](https://github.com/lobehub/lobe-icons)
+- **Fonts**: Inter, JetBrains Mono (Google Fonts)
 
 ## 项目结构
 
@@ -28,20 +35,17 @@
 homepage/
 │
 ├── css/                  # CSS 样式文件
-│   ├── animations.css    # 动画相关样式
-│   ├── base.css          # 基础样式和变量
-│   ├── components.css    # 组件样式
-│   ├── layout.css        # 布局样式
-│   ├── responsive.css    # 响应式设计样式
-│   ├── sections.css      # 页面区块样式
-│   ├── theme.css         # 主题相关样式
-│   └── utilities.css     # 工具类样式
+│   ├── modern.css        # 核心样式（包含 Bento Grid、卡片特效等）
+│   ├── base.css          # 基础变量
+│   └── ...
 │
 ├── images/               # 图片资源
 │
 ├── js/                   # JavaScript 文件
-│   └── main.js           # 主要脚本文件
+│   ├── modern.js         # 核心交互逻辑（动画、表单、友链加载）
+│   └── ...
 │
+├── friends.json          # 友链数据配置
 ├── index.html            # 主页面
 └── README.md             # 项目说明文档
 ```
@@ -62,20 +66,14 @@ git clone https://github.com/BB0813/homepage.git
 
 编辑 `index.html` 文件中的相关部分：
 
-- 个人简介：修改 "关于我" 部分的文本内容
-- 技能：调整技能列表和进度条百分比
-- 项目：添加或修改项目卡片
-- 联系方式：更新您的联系信息
+- **Hero Section**：修改 `typingTexts` 数组（在 `index.html`底部脚本中）来定制打字机文案。
+- **技术栈**：在 `.bento-grid` 区域修改技术卡片。
+- **友链**：修改 `friends.json` 文件来管理友情链接。
 
 ### 修改样式
 
-- 颜色主题：编辑 `css/base.css` 中的 CSS 变量
-- 布局：修改 `css/layout.css` 和 `css/responsive.css`
-- 组件样式：修改 `css/components.css`
-
-### 添加新功能
-
-在 `js/main.js` 中添加新的功能和交互效果。
+- 颜色主题与核心变量：编辑 `css/modern.css` 中的 `:root` 变量。
+- 布局调整：主要样式均在 `css/modern.css` 中。
 
 ## 浏览器兼容性
 
