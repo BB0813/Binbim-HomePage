@@ -16,6 +16,7 @@
     
     <!-- 新样式 -->
     <link rel="stylesheet" href="css/modern.css">
+    <link rel="stylesheet" href="css/music-player.css">
 </head>
 <body>
     <!-- 加载动画 -->
@@ -483,6 +484,20 @@
                 });
             });
         });
+    </script>
+    <div id="music-player-app"></div>
+    
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.js"
+        }
+      }
+    </script>
+    <script type="module">
+      import { createApp } from 'vue'
+      import MusicPlayer from './js/music-player.js'
+      createApp(MusicPlayer).mount('#music-player-app')
     </script>
 </body>
 </html>
