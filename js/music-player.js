@@ -299,7 +299,7 @@ export default {
     // Fetch playlist from Meting API (mimicking the original behavior)
     const fetchPlaylist = async () => {
       try {
-        const res = await fetch('https://api.i-meto.com/meting/api?server=netease&type=playlist&id=7650673579')
+        const res = await fetch('https://api.i-meto.com/meting/api?server=netease&type=playlist&id=2902611397')
         const data = await res.json()
         if (Array.isArray(data)) {
           playlist.value = data.map(item => ({
