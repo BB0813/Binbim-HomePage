@@ -49,5 +49,15 @@
       "https://www.beichen.icu/images/Favicon.webp",
       "images/project4.svg"
     ]
+  },
+  {
+    "name":"YangYi的博客",
+    "desc":"保持热爱，奔赴山海",
+    "url":"https://yangyiit.top/",
+    "icons":[
+      "https://www.yangyiit.top/wp-content/uploads/2025/08/1754627166-logo.jpg",
+      "https://www.yangyiit.top/wp-content/uploads/2025/08/1754627166-logo.jpg",
+      "https://www.yangyiit.top/wp-content/uploads/2025/08/1754627166-logo.jpg"
+    ]
   }
 ]
