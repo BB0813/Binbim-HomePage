@@ -71,23 +71,13 @@
     ]
   },
   {
-    "name":"YangYi的博客",
-    "desc":"保持热爱，奔赴山海",
+    "name":"red.blue.light",
+    "desc":"红蓝灯的秘密基地",
     "url":"https://cn-rbl.github.io/",
     "icons":[
       "https://q1.qlogo.cn/g?b=qq&nk=2985725745&s=640",
       "https://q1.qlogo.cn/g?b=qq&nk=2985725745&s=640",
       "https://q1.qlogo.cn/g?b=qq&nk=2985725745&s=640"
-    ]
-  },
-  {
-    "name": "Seeridia 小小的大窝",
-    "desc": "Loomi Lair",
-    "url": "https://www.seeridia.top",
-    "icons": [
-      "https://www.github.com/seeridia.png",
-      "https://www.github.com/seeridia.png",
-      "https://www.github.com/seeridia.png"
     ]
   }
 ]
