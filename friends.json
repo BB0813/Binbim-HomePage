@@ -4,9 +4,9 @@
     "desc": "技术与生活分享",
     "url": "https://apanzinc.top",
     "icons": [
-      "https://icons.duckduckgo.com/ip3/apanzinc.top.ico",
-      "https://www.google.com/s2/favicons?sz=64&domain=apanzinc.top",
-      "images/project1.svg"
+      "https://apanzinc.top/images/icon/512.png",
+      "https://apanzinc.top/images/icon/512.png",
+      "https://apanzinc.top/images/icon/512.png"
     ]
   },
   {
@@ -55,9 +55,29 @@
     "desc":"保持热爱，奔赴山海",
     "url":"https://yangyiit.top/",
     "icons":[
-      "https://www.yangyiit.top/wp-content/uploads/2025/08/1754627166-logo.jpg",
-      "https://www.yangyiit.top/wp-content/uploads/2025/08/1754627166-logo.jpg",
-      "https://www.yangyiit.top/wp-content/uploads/2025/08/1754627166-logo.jpg"
+      "https://q1.qlogo.cn/g?b=qq&nk=3303289608&s=640",
+      "https://q1.qlogo.cn/g?b=qq&nk=3303289608&s=640",
+      "https://q1.qlogo.cn/g?b=qq&nk=3303289608&s=640"
+    ]
+  },
+  {
+    "name": "Seeridia 小小的大窝",
+    "desc": "Loomi Lair",
+    "url": "https://www.seeridia.top",
+    "icons": [
+      "https://www.github.com/seeridia.png",
+      "https://www.github.com/seeridia.png",
+      "https://www.github.com/seeridia.png"
+    ]
+  },
+  {
+    "name":"YangYi的博客",
+    "desc":"保持热爱，奔赴山海",
+    "url":"https://cn-rbl.github.io/",
+    "icons":[
+      "https://q1.qlogo.cn/g?b=qq&nk=2985725745&s=640",
+      "https://q1.qlogo.cn/g?b=qq&nk=2985725745&s=640",
+      "https://q1.qlogo.cn/g?b=qq&nk=2985725745&s=640"
     ]
   }
 ]

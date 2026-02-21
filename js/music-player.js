@@ -2,7 +2,7 @@ import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 
 export default {
   template: `
-  <div class="music-player-wrapper">
+  <div class="music-player-wrapper" :style="{ top: playerPos.y + 'px', left: playerPos.x + 'px', bottom: 'auto' }">
     <audio
       ref="audioRef"
       :src="currentSong?.url"
@@ -80,7 +80,7 @@ export default {
       </div>
     </transition>
 
-    <div class="player-widget" :class="{ 'is-playing': isPlaying }">
+    <div class="player-widget" :class="{ 'is-playing': isPlaying }" @mousedown="startPlayerDrag" @touchstart="startPlayerDrag" style="cursor: move;">
       <!-- Album Art & Play Toggle -->
       <div class="cover-container" @click="togglePlay">
         <div class="cover-wrapper">
@@ -229,6 +229,74 @@ export default {
     const lyricsPos = ref({ x: 0, y: 0 })
     const isDragging = ref(false)
     const dragOffset = ref({ x: 0, y: 0 })
+
+    // Draggable Player Logic
+    const playerPos = ref({ x: 24, y: window.innerHeight - 100 })
+    const isPlayerDragging = ref(false)
+    const playerDragOffset = ref({ x: 0, y: 0 })
+
+    const initPlayerPosition = () => {
+      const saved = localStorage.getItem('player-position')
+      if (saved) {
+        try {
+          playerPos.value = JSON.parse(saved)
+          // Simple boundary check
+           if (playerPos.value.x > window.innerWidth - 50) playerPos.value.x = window.innerWidth - 300
+           if (playerPos.value.y > window.innerHeight - 50) playerPos.value.y = window.innerHeight - 100
+        } catch (e) {
+           console.error(e)
+        }
+      } else {
+         // Default initial position if not saved (bottom-left)
+         // Note: CSS uses bottom: 24px, left: 24px. 
+         // We need to convert to top/left coordinates.
+         playerPos.value = { x: 24, y: window.innerHeight - 140 } 
+      }
+    }
+
+    const startPlayerDrag = (e) => {
+      // Prevent drag on controls
+      if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.progress-container')) return
+      
+      isPlayerDragging.value = true
+      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
+      const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
+      
+      playerDragOffset.value = {
+        x: clientX - playerPos.value.x,
+        y: clientY - playerPos.value.y
+      }
+      
+      window.addEventListener('mousemove', onPlayerDrag)
+      window.addEventListener('mouseup', stopPlayerDrag)
+      window.addEventListener('touchmove', onPlayerDrag, { passive: false })
+      window.addEventListener('touchend', stopPlayerDrag)
+    }
+
+    const onPlayerDrag = (e) => {
+      if (!isPlayerDragging.value) return
+      if (e.type === 'touchmove') {
+         e.preventDefault() 
+      }
+      
+      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
+      const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
+      
+      playerPos.value = {
+        x: clientX - playerDragOffset.value.x,
+        y: clientY - playerDragOffset.value.y
+      }
+    }
+
+    const stopPlayerDrag = () => {
+      isPlayerDragging.value = false
+      window.removeEventListener('mousemove', onPlayerDrag)
+      window.removeEventListener('mouseup', stopPlayerDrag)
+      window.removeEventListener('touchmove', onPlayerDrag)
+      window.removeEventListener('touchend', stopPlayerDrag)
+      
+      localStorage.setItem('player-position', JSON.stringify(playerPos.value))
+    }
 
     const initLyricsPosition = () => {
       const saved = localStorage.getItem('lyrics-position')
@@ -561,6 +629,7 @@ export default {
 
     onMounted(() => {
       initLyricsPosition()
+      initPlayerPosition()
       initLyricsSettings()
       
       const savedLyricsVisible = localStorage.getItem('lyrics-visible')
@@ -587,6 +656,7 @@ export default {
       audioRef, isPlaying, playlist, currentIndex, progress, showPlaylist, showLyrics, loopMode, volume, showVolumeSlider, showMoreMenu, moreMenuRef,
       lyrics, currentLyric, nextLyric, lyricIndex,
       lyricsPos, startDrag,
+      playerPos, startPlayerDrag,
       currentSong,
       togglePlay, playIndex, next, prev, onEnded, onTimeUpdate, seek, onCanPlay, onError, togglePlaylist, toggleLyrics, toggleMute,
       contextMenuVisible, contextMenuPos, lyricsSettings, handleContextMenu, toggleMoreMenu
