@@ -47,12 +47,27 @@ function initNavigation() {
         bars[2].style.transform = navMenu.classList.contains('active') ? 'rotate(-45deg) translateY(-7px)' : '';
     });
     
+    const closeMobileMenu = () => {
+        navMenu.classList.remove('active');
+        if (!navToggle) return;
+        const bars = navToggle.querySelectorAll('.bar');
+        bars[0].style.transform = '';
+        bars[1].style.opacity = '1';
+        bars[2].style.transform = '';
+    };
+
     // 平滑滚动
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href') || '';
+
+            // 支持多页面导航：非 # 开头的链接直接跳转
+            if (!targetId.startsWith('#')) {
+                closeMobileMenu();
+                return;
+            }
+
             e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
             const targetSection = document.querySelector(targetId);
             
             if (targetSection) {
@@ -68,11 +83,7 @@ function initNavigation() {
                 this.classList.add('active');
                 
                 // 关闭移动端菜单
-                navMenu.classList.remove('active');
-                const bars = navToggle.querySelectorAll('.bar');
-                bars[0].style.transform = '';
-                bars[1].style.opacity = '1';
-                bars[2].style.transform = '';
+                closeMobileMenu();
             }
         });
     });
@@ -110,10 +121,9 @@ function updateActiveNavLink() {
     });
     
     navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
+        const href = link.getAttribute('href') || '';
+        if (!href.startsWith('#')) return;
+        link.classList.toggle('active', href === `#${current}`);
     });
 }
 

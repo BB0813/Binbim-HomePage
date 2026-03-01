@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binbim - 文章详情</title>
+    <meta name="description" content="Binbim 技术文章详情页。">
+    <link rel="icon" href="https://q1.qlogo.cn/g?b=qq&nk=1721822150&s=640" type="image/svg+xml">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/modern.css">
+    <link rel="stylesheet" href="css/article-detail.css">
+</head>
+<body>
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-text">Binbim</a>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">主页</a>
+                <a href="article.html" class="nav-link">文章列表</a>
+                <a href="#article-top" class="nav-link active">当前文章</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="article-top" class="detail-page">
+        <div class="container">
+            <div class="detail-shell" id="detail-shell">
+                <div class="detail-placeholder">
+                    <i data-lucide="loader-circle"></i>
+                    <p>正在加载文章...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2023-2026 Binbim. Article Detail.</p>
+                </div>
+                <div class="footer-social">
+                    <a href="article.html" class="social-link" aria-label="Article List">
+                        <i data-lucide="book-open"></i>
+                    </a>
+                    <a href="https://github.com/BB0813" class="social-link" aria-label="GitHub" target="_blank">
+                        <i data-lucide="github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="js/modern.js"></script>
+    <script src="articles-data.js"></script>
+    <script src="js/article-detail.js"></script>
+</body>
+</html>
