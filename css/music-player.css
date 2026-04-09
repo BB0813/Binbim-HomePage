@@ -1,20 +1,27 @@
 .music-player-wrapper {
   position: fixed;
-  bottom: 24px;
-  left: 24px;
   z-index: 9999;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* 防止内容溢出视口 */
+  overflow: visible;
 }
 
-/* Lyrics Display */
+/* 歌词显示容器 - 强制边界约束 */
 .lyrics-container {
   position: fixed;
   z-index: 9998;
   text-align: center;
   pointer-events: auto;
-  max-width: 600px;
+
+  /* 动态尺寸，但限制最大值 */
+  max-width: min(600px, calc(100vw - 48px));
   width: fit-content;
   padding: 12px 24px;
+
+  /* 严格的高度和溢出控制 */
+  max-height: calc(100vh - 96px);
+  overflow: hidden;
   
   /* Glassmorphism */
   background: rgba(255, 255, 255, 0.15);

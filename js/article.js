@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function initArticles() {
     const articles = await loadArticles();
-    articleState.allArticles = sortArticles(articles);
+    articleState.allArticles = ArticleUtils.sortArticles(articles);
     articleState.activeId = getVisibleArticles().at(0)?.id || null;
 
     if (articleState.loadFailed) return;
@@ -28,12 +28,12 @@ async function initArticles() {
 }
 
 async function loadArticles() {
-    const embeddedArticles = getEmbeddedArticles();
+    const embeddedArticles = ArticleUtils.getEmbeddedArticles();
     const isFileProtocol = window.location.protocol === 'file:';
 
     if (isFileProtocol && embeddedArticles.length) {
         articleState.loadFailed = false;
-        return embeddedArticles.map(normalizeArticle);
+        return embeddedArticles.map(ArticleUtils.normalizeArticle);
     }
 
     try {
@@ -41,12 +41,12 @@ async function loadArticles() {
         if (!response.ok) throw new Error(`failed: ${response.status}`);
         const data = await response.json();
         articleState.loadFailed = false;
-        return Array.isArray(data) ? data.map(normalizeArticle) : [];
+        return Array.isArray(data) ? data.map(ArticleUtils.normalizeArticle) : [];
     } catch (error) {
         if (embeddedArticles.length) {
             console.warn('fetch articles.json 失败，已切换到本地内置数据:', error);
             articleState.loadFailed = false;
-            return embeddedArticles.map(normalizeArticle);
+            return embeddedArticles.map(ArticleUtils.normalizeArticle);
         }
         articleState.loadFailed = true;
         console.error('加载 articles.json 失败:', error);
@@ -90,7 +90,7 @@ function renderCategoryFilters() {
 
     container.innerHTML = categories.map(category => {
         const activeClass = category === articleState.category ? 'active' : '';
-        return `<button class="filter-chip ${activeClass}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category)}</button>`;
+        return `<button class="filter-chip ${activeClass}" type="button" data-category="${ArticleUtils.escapeHtml(category)}">${ArticleUtils.escapeHtml(category)}</button>`;
     }).join('');
 
     container.querySelectorAll('.filter-chip').forEach(button => {
@@ -114,7 +114,7 @@ function renderArticleList() {
         listElement.innerHTML = '<div class="article-empty">没有匹配的文章，请调整搜索、分类或草稿开关。</div>';
         renderPagination(0);
         renderReader(null);
-        refreshIcons();
+        ArticleUtils.refreshIcons();
         return;
     }
 
@@ -134,20 +134,20 @@ function renderArticleList() {
     }
 
     listElement.innerHTML = pageArticles.map(article => {
-        const activeClass = article.id === articleState.activeId ? 'active' : '';
+        const activeClass = article.id === articleState.activeId ? 'active' '';
         const tags = Array.isArray(article.tags) ? article.tags : [];
         return `
-            <article class="article-card ${activeClass}" data-id="${escapeHtml(article.id)}">
+            <article class="article-card ${activeClass}" data-id="${ArticleUtils.escapeHtml(article.id)}">
                 <div class="article-meta">
-                    <span><i data-lucide="tag"></i>${highlightText(article.category, articleState.keyword)}</span>
-                    <span><i data-lucide="calendar"></i>${formatDate(article.date)}</span>
-                    <span><i data-lucide="clock-3"></i>${escapeHtml(article.readTime || '')}</span>
-                    <span class="article-status ${escapeHtml(article.status)}">${escapeHtml(article.status)}</span>
+                    <span><i data-lucide="tag"></i>${ArticleUtils.highlightText(article.category, articleState.keyword)}</span>
+                    <span><i data-lucide="calendar"></i>${ArticleUtils.formatDate(article.date)}</span>
+                    <span><i data-lucide="clock-3"></i>${ArticleUtils.escapeHtml(article.readTime || '')}</span>
+                    <span class="article-status ${ArticleUtils.escapeHtml(article.status)}">${ArticleUtils.escapeHtml(article.status)}</span>
                 </div>
-                <h3>${highlightText(article.title, articleState.keyword)}</h3>
-                <p>${highlightText(article.summary || '', articleState.keyword)}</p>
+                <h3>${ArticleUtils.highlightText(article.title, articleState.keyword)}</h3>
+                <p>${ArticleUtils.highlightText(article.summary || '', articleState.keyword)}</p>
                 <div class="article-tags">
-                    ${tags.map(tag => `<span class="article-tag">${highlightText(tag, articleState.keyword)}</span>`).join('')}
+                    ${tags.map(tag => `<span class="article-tag">${ArticleUtils.highlightText(tag, articleState.keyword)}</span>`).join('')}
                 </div>
                 <div class="article-card-actions">
                     <a class="article-read-more" href="${buildDetailUrl(article)}">
@@ -170,7 +170,7 @@ function renderArticleList() {
 
     renderPagination(filtered.length);
     renderReader(articleState.activeId);
-    refreshIcons();
+    ArticleUtils.refreshIcons();
 }
 
 function renderPagination(totalItems) {
@@ -220,22 +220,22 @@ function renderReader(articleId) {
                 <p>从左侧选择一篇文章开始阅读。</p>
             </div>
         `;
-        refreshIcons();
+        ArticleUtils.refreshIcons();
         return;
     }
 
     const tags = Array.isArray(article.tags) ? article.tags : [];
     readerElement.innerHTML = `
         <div class="reader-head">
-            <h2>${highlightText(article.title, articleState.keyword)}</h2>
+            <h2>${ArticleUtils.highlightText(article.title, articleState.keyword)}</h2>
             <div class="article-meta">
-                <span><i data-lucide="tag"></i>${highlightText(article.category, articleState.keyword)}</span>
-                <span><i data-lucide="calendar"></i>${formatDate(article.date)}</span>
-                <span><i data-lucide="clock-3"></i>${escapeHtml(article.readTime || '')}</span>
-                <span class="article-status ${escapeHtml(article.status)}">${escapeHtml(article.status)}</span>
+                <span><i data-lucide="tag"></i>${ArticleUtils.highlightText(article.category, articleState.keyword)}</span>
+                <span><i data-lucide="calendar"></i>${ArticleUtils.formatDate(article.date)}</span>
+                <span><i data-lucide="clock-3"></i>${ArticleUtils.escapeHtml(article.readTime || '')}</span>
+                <span class="article-status ${ArticleUtils.escapeHtml(article.status)}">${ArticleUtils.escapeHtml(article.status)}</span>
             </div>
             <div class="article-tags article-highlight">
-                ${tags.map(tag => `<span class="article-tag">${highlightText(tag, articleState.keyword)}</span>`).join('')}
+                ${tags.map(tag => `<span class="article-tag">${ArticleUtils.highlightText(tag, articleState.keyword)}</span>`).join('')}
             </div>
             <div class="reader-actions">
                 <a class="article-read-more" href="${buildDetailUrl(article)}">
@@ -245,11 +245,11 @@ function renderReader(articleId) {
             </div>
         </div>
         <div class="reader-content">
-            ${Array.isArray(article.content) ? article.content.map(paragraph => `<p>${highlightText(paragraph, articleState.keyword)}</p>`).join('') : ''}
+            ${Array.isArray(article.content) ? article.content.map(paragraph => `<p>${ArticleUtils.highlightText(paragraph, articleState.keyword)}</p>`).join('') : ''}
         </div>
     `;
 
-    refreshIcons();
+    ArticleUtils.refreshIcons();
 }
 
 function renderStats(filteredCount) {
@@ -279,7 +279,7 @@ function renderLoadError() {
             </div>
         `;
     }
-    refreshIcons();
+    ArticleUtils.refreshIcons();
 }
 
 function getVisibleArticles() {
@@ -298,73 +298,6 @@ function getFilteredArticles() {
     });
 }
 
-function sortArticles(articles) {
-    return [...articles].sort((a, b) => {
-        const ta = toTimestamp(a.date);
-        const tb = toTimestamp(b.date);
-        if (ta !== tb) return tb - ta;
-        return String(a.title).localeCompare(String(b.title), 'zh-CN');
-    });
-}
-
-function toTimestamp(dateText) {
-    const t = Date.parse(dateText || '');
-    return Number.isNaN(t) ? 0 : t;
-}
-
-function normalizeArticle(article) {
-    const status = article?.status === 'draft' ? 'draft' : 'published';
-    return {
-        id: String(article?.id || ''),
-        title: String(article?.title || ''),
-        category: String(article?.category || '未分类'),
-        tags: Array.isArray(article?.tags) ? article.tags.map(tag => String(tag)) : [],
-        date: String(article?.date || ''),
-        readTime: String(article?.readTime || ''),
-        summary: String(article?.summary || ''),
-        content: Array.isArray(article?.content) ? article.content.map(item => String(item)) : [],
-        status
-    };
-}
-
-function formatDate(dateText) {
-    const date = new Date(dateText);
-    if (Number.isNaN(date.getTime())) return escapeHtml(dateText || '');
-    return date.toLocaleDateString('zh-CN', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-    });
-}
-
-function highlightText(text, keyword) {
-    const source = text == null ? '' : String(text);
-    const normalizedKeyword = keyword.trim();
-    if (!normalizedKeyword) return escapeHtml(source);
-
-    const regex = new RegExp(`(${escapeRegExp(normalizedKeyword)})`, 'ig');
-    const segments = source.split(regex);
-    return segments.map((part, index) => {
-        if (index % 2 === 1) {
-            return `<mark>${escapeHtml(part)}</mark>`;
-        }
-        return escapeHtml(part);
-    }).join('');
-}
-
-function escapeHtml(text) {
-    return String(text)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-}
-
-function escapeRegExp(text) {
-    return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
 function buildDetailUrl(article) {
     const params = new URLSearchParams({ id: article.id });
     if (articleState.keyword.trim()) {
@@ -374,17 +307,4 @@ function buildDetailUrl(article) {
         params.set('preview', '1');
     }
     return `article-detail.html?${params.toString()}`;
-}
-
-function refreshIcons() {
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
-    }
-}
-
-function getEmbeddedArticles() {
-    if (Array.isArray(window.__ARTICLES_DATA__)) {
-        return window.__ARTICLES_DATA__;
-    }
-    return [];
 }

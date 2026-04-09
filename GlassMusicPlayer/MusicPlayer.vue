@@ -1,5 +1,5 @@
 <template>
-  <div class="music-player-wrapper">
+  <div class="music-player-wrapper" :style="playerStyle">
     <audio
       ref="audioRef"
       :src="currentSong?.url"
@@ -12,20 +12,20 @@
     ></audio>
 
     <!-- Lyrics Display -->
-    <div 
-      class="lyrics-container" 
+    <div
+      class="lyrics-container"
       v-if="showLyrics"
-      :style="{ top: lyricsPos.y + 'px', left: lyricsPos.x + 'px' }"
-      @mousedown="startDrag"
-      @touchstart="startDrag"
+      :style="lyricsStyle"
+      @mousedown="startLyricsDrag"
+      @touchstart.prevent="startLyricsDrag"
       @contextmenu.prevent="handleContextMenu"
     >
       <div class="lyrics-wrapper" v-if="currentLyric || nextLyric">
         <transition name="lyric-fade" mode="out-in">
-          <div 
-            :key="currentLyric" 
+          <div
+            :key="currentLyric"
             class="lyric-line current"
-            :style="{ 
+            :style="{
               fontSize: lyricsSettings.fontSize + 'px',
               color: lyricsSettings.color
             }"
@@ -34,11 +34,11 @@
           </div>
         </transition>
         <transition name="lyric-fade" mode="out-in">
-          <div 
+          <div
             v-if="nextLyric"
-            :key="nextLyric" 
+            :key="nextLyric"
             class="lyric-line next"
-            :style="{ 
+            :style="{
               fontSize: (lyricsSettings.fontSize * 0.75) + 'px',
               color: lyricsSettings.color
             }"
@@ -54,10 +54,10 @@
 
     <!-- Context Menu -->
     <transition name="fade-slide">
-      <div 
+      <div
         v-if="contextMenuVisible"
         class="context-menu"
-        :style="{ top: contextMenuPos.y + 'px', left: contextMenuPos.x + 'px' }"
+        :style="contextMenuStyle"
         @mousedown.stop
       >
         <div class="menu-header">Settings</div>
@@ -77,14 +77,14 @@
       </div>
     </transition>
 
-    <div class="player-widget" :class="{ 'is-playing': isPlaying }">
+    <div class="player-widget" :class="{ 'is-playing': isPlaying }" @mousedown="startPlayerDrag" @touchstart.prevent="startPlayerDrag">
       <!-- Album Art & Play Toggle -->
-      <div class="cover-container" @click="togglePlay">
+      <div class="cover-container" @click.stop="togglePlay">
         <div class="cover-wrapper">
-          <img 
-            v-if="currentSong?.cover" 
-            :src="currentSong.cover" 
-            alt="cover" 
+          <img
+            v-if="currentSong?.cover"
+            :src="currentSong.cover"
+            alt="cover"
             class="cover-img"
             :class="{ 'rotating': isPlaying }"
           />
@@ -102,36 +102,37 @@
             <span class="song-artist" v-if="currentSong?.artist">- {{ currentSong.artist }}</span>
           </div>
           <div class="controls">
-            <button class="icon-btn" @click="prev" title="Previous">
+            <button class="icon-btn" @click.stop="prev" title="Previous">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
             </button>
-            <button class="icon-btn" @click="togglePlay" title="Play/Pause">
+            <button class="icon-btn" @click.stop="togglePlay" title="Play/Pause">
                <svg v-if="!isPlaying" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                <svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
             </button>
-            <button class="icon-btn" @click="next" title="Next">
+            <button class="icon-btn" @click.stop="next" title="Next">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
             </button>
-            
+
             <!-- Volume Control (Vertical) -->
-            <div class="volume-control-wrapper" @mouseenter="showVolumeSlider = true" @mouseleave="showVolumeSlider = false">
+            <div class="volume-control-wrapper" @mouseenter.stop="showVolumeSlider = true" @mouseleave.stop="showVolumeSlider = false">
               <transition name="fade">
                 <div class="volume-slider-container" v-show="showVolumeSlider">
                    <div class="volume-track">
                       <div class="volume-bar" :style="{ height: (volume * 100) + '%' }"></div>
-                      <input 
-                        type="range" 
-                        min="0" 
-                        max="1" 
-                        step="0.01" 
+                      <input
+                        type="range"
+                        min="0"
+                        max="1"
+                        step="0.01"
                         v-model.number="volume"
                         class="volume-slider-vertical"
                         title="Volume"
+                        @mousedown.stop
                       >
                    </div>
                 </div>
               </transition>
-              <button class="icon-btn" @click="toggleMute" title="Mute/Unmute">
+              <button class="icon-btn" @click.stop="toggleMute" title="Mute/Unmute">
                 <svg v-if="volume > 0" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
                 <svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
               </button>
@@ -139,18 +140,18 @@
 
             <!-- More Menu Button -->
             <div class="more-control-wrapper" ref="moreMenuRef">
-              <button class="icon-btn" @click="toggleMoreMenu" :class="{ active: showMoreMenu }" title="More">
+              <button class="icon-btn" @click.stop="toggleMoreMenu" :class="{ active: showMoreMenu }" title="More">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
               </button>
-              
+
               <transition name="fade-slide-up">
-                <div class="more-menu-popup" v-if="showMoreMenu">
-                   <div class="more-menu-item" @click="toggleLyrics">
+                <div class="more-menu-popup" v-if="showMoreMenu" @mousedown.stop>
+                   <div class="more-menu-item" @click.stop="toggleLyrics">
                       <span class="menu-icon text-icon">词</span>
                       <span class="menu-text">桌面歌词</span>
                       <div class="menu-toggle" :class="{ active: showLyrics }"></div>
                    </div>
-                   <div class="more-menu-item" @click="togglePlaylist">
+                   <div class="more-menu-item" @click.stop="togglePlaylist">
                       <span class="menu-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
                       </span>
@@ -161,9 +162,9 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Progress Bar -->
-        <div class="progress-container" @click="seek">
+        <div class="progress-container" @click.stop="seek">
           <div class="progress-bg">
             <div class="progress-fill" :style="{ width: progress + '%' }"></div>
           </div>
@@ -173,19 +174,19 @@
 
     <!-- Playlist Popup -->
     <transition name="fade-slide">
-      <div class="playlist-panel" v-if="showPlaylist">
+      <div class="playlist-panel" v-if="showPlaylist" @mousedown.stop>
         <div class="playlist-header">
           <span>Playlist ({{ playlist.length }})</span>
-          <button class="icon-btn" @click="showPlaylist = false">
+          <button class="icon-btn" @click.stop="showPlaylist = false">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
         <ul class="playlist-items">
-          <li 
-            v-for="(song, index) in playlist" 
+          <li
+            v-for="(song, index) in playlist"
             :key="song.id || index"
             :class="{ active: index === currentIndex }"
-            @click="playIndex(index)"
+            @click.stop="playIndex(index)"
           >
             <div class="item-index" v-if="index === currentIndex">
                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -212,7 +213,7 @@ const currentIndex = ref(0)
 const progress = ref(0)
 const showPlaylist = ref(false)
 const showLyrics = ref(true)
-const loopMode = ref('all') // 'all', 'one', 'none'
+const loopMode = ref('all')
 const volume = ref(0.7)
 const lastVolume = ref(0.7)
 const showVolumeSlider = ref(false)
@@ -225,78 +226,192 @@ const currentLyric = ref('')
 const nextLyric = ref('')
 const lyricIndex = ref(-1)
 
-// Draggable Lyrics Logic
-const lyricsPos = ref({ x: 0, y: 0 })
-const isDragging = ref(false)
-const dragOffset = ref({ x: 0, y: 0 })
+// Position state
+const playerPos = ref({ x: 24, y: window.innerHeight - 94 })
+const lyricsPos = ref({ x: window.innerWidth / 2 - 125, y: 80 })
 
-const initLyricsPosition = () => {
-  const saved = localStorage.getItem('lyrics-position')
-  if (saved) {
-    try {
-      lyricsPos.value = JSON.parse(saved)
-      // Ensure it's within viewport (simple check)
-      if (lyricsPos.value.x > window.innerWidth) lyricsPos.value.x = window.innerWidth - 200
-      if (lyricsPos.value.y > window.innerHeight) lyricsPos.value.y = window.innerHeight - 100
-    } catch (e) {
-      console.error(e)
-    }
-  } else {
-    // Initial position based on screen size
-    if (window.innerWidth < 768) {
-      lyricsPos.value = { x: 20, y: window.innerHeight - 200 }
-    } else {
-      lyricsPos.value = { x: window.innerWidth - 400, y: 80 }
-    }
+// Dragging state
+const isPlayerDragging = ref(false)
+const playerDragOffset = ref({ x: 0, y: 0 })
+const isLyricsDragging = ref(false)
+const lyricsDragOffset = ref({ x: 0, y: 0 })
+
+// Settings
+const contextMenuVisible = ref(false)
+const contextMenuPos = ref({ x: 0, y: 0 })
+const lyricsSettings = ref({
+  fontSize: 24,
+  color: '#ffffff'
+})
+
+// Computed styles with boundary constraints
+const playerStyle = computed(() => ({
+  left: `${playerPos.value.x}px`,
+  top: `${playerPos.value.y}px`
+}))
+
+const lyricsStyle = computed(() => ({
+  left: `${lyricsPos.value.x}px`,
+  top: `${lyricsPos.value.y}px`
+}))
+
+const contextMenuStyle = computed(() => {
+  let x = contextMenuPos.value.x
+  let y = contextMenuPos.value.y
+
+  // Boundary check for context menu
+  const menuWidth = 220
+  const menuHeight = 160
+  if (x + menuWidth > window.innerWidth) x = window.innerWidth - menuWidth - 10
+  if (y + menuHeight > window.innerHeight) y = window.innerHeight - menuHeight - 10
+
+  return { left: `${x}px`, top: `${y}px` }
+})
+
+// Boundary constraint utility
+const constrainToViewport = (pos, elementWidth, elementHeight, margin = 24) => {
+  return {
+    x: Math.max(margin, Math.min(pos.x, window.innerWidth - elementWidth - margin)),
+    y: Math.max(margin, Math.min(pos.y, window.innerHeight - elementHeight - margin))
   }
 }
 
-const startDrag = (e) => {
-  isDragging.value = true
+// Initialize positions from localStorage or defaults
+const initPositions = () => {
+  // Player position
+  try {
+    const savedPlayer = localStorage.getItem('player-position')
+    if (savedPlayer) {
+      playerPos.value = constrainToViewport(JSON.parse(savedPlayer), 320, 70)
+    }
+  } catch (e) {
+    // Use default position
+  }
+
+  // Lyrics position
+  try {
+    const savedLyrics = localStorage.getItem('lyrics-position')
+    if (savedLyrics) {
+      lyricsPos.value = constrainToViewport(JSON.parse(savedLyrics), 250, 80)
+    }
+  } catch (e) {
+    // Set default based on screen size
+    if (window.innerWidth < 768) {
+      lyricsPos.value = { x: 20, y: window.innerHeight - 180 }
+    } else {
+      lyricsPos.value = { x: window.innerWidth - 350, y: 80 }
+    }
+  }
+
+  // Lyrics settings
+  try {
+    const savedSettings = localStorage.getItem('lyrics-settings')
+    if (savedSettings) {
+      lyricsSettings.value = JSON.parse(savedSettings)
+    }
+  } catch (e) {
+    // Use default settings
+  }
+
+  // Lyrics visibility
+  const savedVisible = localStorage.getItem('lyrics-visible')
+  if (savedVisible !== null) {
+    showLyrics.value = savedVisible === 'true'
+  }
+}
+
+// Player drag handlers
+const startPlayerDrag = (e) => {
+  // Prevent drag on controls
+  if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.progress-container')) return
+
+  isPlayerDragging.value = true
   const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
   const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
-  
-  dragOffset.value = {
+
+  playerDragOffset.value = {
+    x: clientX - playerPos.value.x,
+    y: clientY - playerPos.value.y
+  }
+
+  window.addEventListener('mousemove', onPlayerDrag)
+  window.addEventListener('mouseup', stopPlayerDrag)
+  window.addEventListener('touchmove', onPlayerDrag, { passive: false })
+  window.addEventListener('touchend', stopPlayerDrag)
+}
+
+const onPlayerDrag = (e) => {
+  if (!isPlayerDragging.value) return
+  if (e.type === 'touchmove') e.preventDefault()
+
+  const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
+  const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
+
+  const newPos = {
+    x: clientX - playerDragOffset.value.x,
+    y: clientY - playerDragOffset.value.y
+  }
+
+  playerPos.value = constrainToViewport(newPos, 320, 70)
+}
+
+const stopPlayerDrag = () => {
+  isPlayerDragging.value = false
+  window.removeEventListener('mousemove', onPlayerDrag)
+  window.removeEventListener('mouseup', stopPlayerDrag)
+  window.removeEventListener('touchmove', onPlayerDrag)
+  window.removeEventListener('touchend', stopPlayerDrag)
+
+  localStorage.setItem('player-position', JSON.stringify(playerPos.value))
+}
+
+// Lyrics drag handlers
+const startLyricsDrag = (e) => {
+  isLyricsDragging.value = true
+  const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
+  const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
+
+  lyricsDragOffset.value = {
     x: clientX - lyricsPos.value.x,
     y: clientY - lyricsPos.value.y
   }
-  
-  window.addEventListener('mousemove', onDrag)
-  window.addEventListener('mouseup', stopDrag)
-  window.addEventListener('touchmove', onDrag, { passive: false })
-  window.addEventListener('touchend', stopDrag)
+
+  window.addEventListener('mousemove', onLyricsDrag)
+  window.addEventListener('mouseup', stopLyricsDrag)
+  window.addEventListener('touchmove', onLyricsDrag, { passive: false })
+  window.addEventListener('touchend', stopLyricsDrag)
 }
 
-const onDrag = (e) => {
-  if (!isDragging.value) return
-  if (e.type === 'touchmove') {
-     e.preventDefault() 
-  }
-  
+const onLyricsDrag = (e) => {
+  if (!isLyricsDragging.value) return
+  if (e.type === 'touchmove') e.preventDefault()
+
   const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
   const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
-  
-  lyricsPos.value = {
-    x: clientX - dragOffset.value.x,
-    y: clientY - dragOffset.value.y
+
+  const newPos = {
+    x: clientX - lyricsDragOffset.value.x,
+    y: clientY - lyricsDragOffset.value.y
   }
+
+  lyricsPos.value = constrainToViewport(newPos, 250, 80)
 }
 
-const stopDrag = () => {
-  isDragging.value = false
-  window.removeEventListener('mousemove', onDrag)
-  window.removeEventListener('mouseup', stopDrag)
-  window.removeEventListener('touchmove', onDrag)
-  window.removeEventListener('touchend', stopDrag)
-  
+const stopLyricsDrag = () => {
+  isLyricsDragging.value = false
+  window.removeEventListener('mousemove', onLyricsDrag)
+  window.removeEventListener('mouseup', stopLyricsDrag)
+  window.removeEventListener('touchmove', onLyricsDrag)
+  window.removeEventListener('touchend', stopLyricsDrag)
+
   localStorage.setItem('lyrics-position', JSON.stringify(lyricsPos.value))
 }
 
+// Song management
 const currentSong = computed(() => {
   return playlist.value[currentIndex.value] || null
 })
 
-// Fetch playlist from Meting API (mimicking the original behavior)
 const fetchPlaylist = async () => {
   try {
     const res = await fetch('https://api.i-meto.com/meting/api?server=netease&type=playlist&id=7650673579')
@@ -315,20 +430,19 @@ const fetchPlaylist = async () => {
   }
 }
 
-// Parse LRC content
+// LRC parsing
 const parseLRC = (lrcContent) => {
   if (!lrcContent) return []
   const lines = lrcContent.split('\n')
   const result = []
   const timeExp = /\[(\d{2}):(\d{2})(?:\.(\d{2,3}))?\]/
-  
+
   for (const line of lines) {
     const match = timeExp.exec(line)
     if (match) {
       const min = parseInt(match[1])
       const sec = parseInt(match[2])
       const msStr = match[3] || '0'
-      // .xx is 10ms, .xxx is 1ms
       const ms = msStr.length === 2 ? parseInt(msStr) * 10 : parseInt(msStr)
       const time = min * 60 + sec + ms / 1000
       const text = line.replace(timeExp, '').trim()
@@ -340,13 +454,12 @@ const parseLRC = (lrcContent) => {
   return result.sort((a, b) => a.time - b.time)
 }
 
-// Fetch lyrics from URL
 const fetchLyrics = async (url) => {
   lyrics.value = []
   currentLyric.value = ''
   nextLyric.value = ''
   lyricIndex.value = -1
-  
+
   if (!url) return
 
   try {
@@ -358,7 +471,6 @@ const fetchLyrics = async (url) => {
   }
 }
 
-// Watch current song to fetch lyrics
 watch(currentSong, (newSong) => {
   if (newSong?.lrc) {
     fetchLyrics(newSong.lrc)
@@ -370,9 +482,10 @@ watch(currentSong, (newSong) => {
   }
 }, { immediate: true })
 
+// Playback controls
 const togglePlay = () => {
   if (!audioRef.value || !currentSong.value) return
-  
+
   if (isPlaying.value) {
     audioRef.value.pause()
   } else {
@@ -385,10 +498,9 @@ const playIndex = (index) => {
   if (index < 0 || index >= playlist.value.length) return
   currentIndex.value = index
   isPlaying.value = true
-  // Wait for DOM update
   setTimeout(() => {
     if (audioRef.value) {
-        audioRef.value.play().catch(e => console.error(e))
+      audioRef.value.play().catch(e => console.error(e))
     }
   }, 50)
 }
@@ -396,7 +508,7 @@ const playIndex = (index) => {
 const next = () => {
   let nextIndex = currentIndex.value + 1
   if (nextIndex >= playlist.value.length) {
-    nextIndex = 0 // Loop all
+    nextIndex = 0
   }
   playIndex(nextIndex)
 }
@@ -409,6 +521,7 @@ const prev = () => {
   playIndex(prevIndex)
 }
 
+// Audio event handlers
 const onEnded = () => {
   if (loopMode.value === 'one') {
     audioRef.value.currentTime = 0
@@ -435,12 +548,11 @@ const onTimeUpdate = () => {
         break
       }
     }
-    
+
     if (activeIndex !== lyricIndex.value) {
       lyricIndex.value = activeIndex
       if (activeIndex !== -1) {
         currentLyric.value = lyrics.value[activeIndex].text
-        // Set next lyric
         if (activeIndex + 1 < lyrics.value.length) {
           nextLyric.value = lyrics.value[activeIndex + 1].text
         } else {
@@ -460,7 +572,7 @@ const seek = (e) => {
   const x = e.clientX - rect.left
   const width = rect.width
   const percent = Math.min(Math.max(x / width, 0), 1)
-  
+
   const duration = audioRef.value.duration
   if (duration) {
     audioRef.value.currentTime = duration * percent
@@ -474,14 +586,14 @@ const onCanPlay = () => {
   }
 }
 
-const onError = (e) => {
-    console.error("Audio error", e);
-    // Auto skip on error
-    if (isPlaying.value) {
-        setTimeout(next, 1000);
-    }
+const onError = () => {
+  console.error("Audio error")
+  if (isPlaying.value) {
+    setTimeout(next, 1000)
+  }
 }
 
+// UI controls
 const togglePlaylist = () => {
   showPlaylist.value = !showPlaylist.value
 }
@@ -500,50 +612,16 @@ const toggleMute = () => {
   }
 }
 
-watch(volume, (newVal) => {
-  if (audioRef.value) {
-    audioRef.value.volume = newVal
-  }
-})
-
-// --- Context Menu & Settings ---
-const contextMenuVisible = ref(false)
-const contextMenuPos = ref({ x: 0, y: 0 })
-const lyricsSettings = ref({
-  fontSize: 24,
-  color: '#ffffff'
-})
-
-const initLyricsSettings = () => {
-  const saved = localStorage.getItem('lyrics-settings')
-  if (saved) {
-    try {
-      lyricsSettings.value = JSON.parse(saved)
-    } catch (e) {
-      console.error(e)
-    }
-  }
+const toggleMoreMenu = () => {
+  showMoreMenu.value = !showMoreMenu.value
 }
-
-watch(lyricsSettings, (newSettings) => {
-  localStorage.setItem('lyrics-settings', JSON.stringify(newSettings))
-}, { deep: true })
 
 const handleContextMenu = (e) => {
   contextMenuVisible.value = true
-  // Adjust position
-  let x = e.clientX
-  let y = e.clientY
-  
-  // Boundary check
-  if (x + 220 > window.innerWidth) x = window.innerWidth - 230
-  if (y + 160 > window.innerHeight) y = window.innerHeight - 170
-  
-  contextMenuPos.value = { x, y }
-}
-
-const toggleMoreMenu = () => {
-  showMoreMenu.value = !showMoreMenu.value
+  contextMenuPos.value = {
+    x: e.clientX || (e.touches && e.touches[0]?.clientX) || 0,
+    y: e.clientY || (e.touches && e.touches[0]?.clientY) || 0
+  }
 }
 
 const handleClickOutside = (e) => {
@@ -553,33 +631,48 @@ const handleClickOutside = (e) => {
         contextMenuVisible.value = false
      }
   }
-  
+
   if (showMoreMenu.value && moreMenuRef.value && !moreMenuRef.value.contains(e.target)) {
      showMoreMenu.value = false
   }
 }
 
-onMounted(() => {
-  initLyricsPosition()
-  initLyricsSettings()
-  
-  const savedLyricsVisible = localStorage.getItem('lyrics-visible')
-  if (savedLyricsVisible !== null) {
-    showLyrics.value = savedLyricsVisible === 'true'
+watch(volume, (newVal) => {
+  if (audioRef.value) {
+    audioRef.value.volume = newVal
   }
+})
 
+watch(lyricsSettings, (newSettings) => {
+  localStorage.setItem('lyrics-settings', JSON.stringify(newSettings))
+}, { deep: true })
+
+onMounted(() => {
+  initPositions()
   fetchPlaylist()
   if (audioRef.value) {
     audioRef.value.volume = volume.value
   }
   window.addEventListener('click', handleClickOutside)
+
+  // Handle window resize to keep elements in viewport
+  const handleResize = () => {
+    playerPos.value = constrainToViewport(playerPos.value, 320, 70)
+    lyricsPos.value = constrainToViewport(lyricsPos.value, 250, 80)
+  }
+
+  window.addEventListener('resize', handleResize)
 })
 
 onBeforeUnmount(() => {
-  window.removeEventListener('mousemove', onDrag)
-  window.removeEventListener('mouseup', stopDrag)
-  window.removeEventListener('touchmove', onDrag)
-  window.removeEventListener('touchend', stopDrag)
+  window.removeEventListener('mousemove', onPlayerDrag)
+  window.removeEventListener('mouseup', stopPlayerDrag)
+  window.removeEventListener('touchmove', onPlayerDrag)
+  window.removeEventListener('touchend', stopPlayerDrag)
+  window.removeEventListener('mousemove', onLyricsDrag)
+  window.removeEventListener('mouseup', stopLyricsDrag)
+  window.removeEventListener('touchmove', onLyricsDrag)
+  window.removeEventListener('touchend', stopLyricsDrag)
   window.removeEventListener('click', handleClickOutside)
 })
 </script>
@@ -587,8 +680,6 @@ onBeforeUnmount(() => {
 <style scoped>
 .music-player-wrapper {
   position: fixed;
-  bottom: 24px;
-  left: 24px;
   z-index: 9999;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
@@ -599,10 +690,16 @@ onBeforeUnmount(() => {
   z-index: 9998;
   text-align: center;
   pointer-events: auto;
-  max-width: 600px;
+
+  /* Dynamic size constraints */
+  max-width: min(600px, calc(100vw - 48px));
   width: fit-content;
   padding: 12px 24px;
-  
+
+  /* Height constraint with safe bottom margin */
+  max-height: calc(100vh - 96px);
+  overflow: hidden;
+
   /* Glassmorphism */
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(12px);
@@ -610,7 +707,7 @@ onBeforeUnmount(() => {
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-  
+
   cursor: grab;
   user-select: none;
   touch-action: none;
@@ -638,7 +735,7 @@ onBeforeUnmount(() => {
   .lyrics-container {
     padding: 8px 16px;
   }
-  
+
   .lyric-line.current {
     font-size: 16px;
     text-shadow: 0 1px 4px rgba(0,0,0,0.8);
@@ -706,10 +803,10 @@ onBeforeUnmount(() => {
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-color, #eee);
   border-radius: 999px;
-  padding: 8px 12px 8px 8px; /* Adjusted padding */
+  padding: 8px 12px 8px 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  max-width: 480px; /* Increased max-width */
+  max-width: 480px;
   width: fit-content;
 }
 
@@ -766,7 +863,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-width: 0; /* Text truncation fix */
+  min-width: 0;
 }
 
 .top-row {
@@ -820,7 +917,7 @@ onBeforeUnmount(() => {
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  padding-bottom: 10px; /* Gap bridge */
+  padding-bottom: 10px;
   z-index: 100;
 }
 
@@ -846,8 +943,8 @@ onBeforeUnmount(() => {
 
 /* Vertical Slider using Transform */
 .volume-slider-vertical {
-  width: 100px; /* Height of the slider area */
-  height: 36px; /* Width of the slider area */
+  width: 100px;
+  height: 36px;
   transform: rotate(-90deg);
   background: transparent;
   cursor: pointer;
@@ -889,7 +986,7 @@ onBeforeUnmount(() => {
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-  margin-top: 12px; /* Center thumb vertically: (36px - 12px) / 2 */
+  margin-top: 12px;
   position: relative;
   z-index: 2;
 }
@@ -998,18 +1095,18 @@ onBeforeUnmount(() => {
   border: none;
   cursor: pointer;
   color: var(--text-secondary, #666);
-  padding: 8px; /* Increased padding */
+  padding: 8px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
-  width: 32px; /* Fixed width */
-  height: 32px; /* Fixed height */
+  width: 32px;
+  height: 32px;
 }
 
 .icon-btn svg {
-  width: 18px; /* Slightly larger icons */
+  width: 18px;
   height: 18px;
 }
 
@@ -1028,7 +1125,7 @@ onBeforeUnmount(() => {
   height: 4px;
   width: 100%;
   cursor: pointer;
-  padding: 2px 0; /* Increase hit area */
+  padding: 2px 0;
 }
 
 .progress-bg {
@@ -1101,7 +1198,7 @@ onBeforeUnmount(() => {
   padding: 10px 16px;
   cursor: pointer;
   transition: background 0.2s;
-  border-bottom: 1px solid transparent; /* Prevent jump */
+  border-bottom: 1px solid transparent;
 }
 
 .playlist-items li:hover {

@@ -235,38 +235,46 @@ export default {
     const isPlayerDragging = ref(false)
     const playerDragOffset = ref({ x: 0, y: 0 })
 
+    // 边界约束工具函数
+    const constrainToViewport = (pos, elementWidth, elementHeight, margin = 24) => {
+      const maxX = window.innerWidth - elementWidth - margin
+      const maxY = window.innerHeight - elementHeight - margin
+
+      return {
+        x: Math.max(margin, Math.min(pos.x, maxX)),
+        y: Math.max(margin, Math.min(pos.y, maxY))
+      }
+    }
+
     const initPlayerPosition = () => {
       const saved = localStorage.getItem('player-position')
       if (saved) {
         try {
           playerPos.value = JSON.parse(saved)
-          // Simple boundary check
-           if (playerPos.value.x > window.innerWidth - 50) playerPos.value.x = window.innerWidth - 300
-           if (playerPos.value.y > window.innerHeight - 50) playerPos.value.y = window.innerHeight - 100
+          // 使用合理的默认尺寸进行边界检查（播放器约 320x70）
+          playerPos.value = constrainToViewport(playerPos.value, 320, 70)
         } catch (e) {
            console.error(e)
         }
       } else {
          // Default initial position if not saved (bottom-left)
-         // Note: CSS uses bottom: 24px, left: 24px. 
-         // We need to convert to top/left coordinates.
-         playerPos.value = { x: 24, y: window.innerHeight - 140 } 
+         playerPos.value = { x: 24, y: window.innerHeight - 100 }
       }
     }
 
     const startPlayerDrag = (e) => {
       // Prevent drag on controls
       if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.progress-container')) return
-      
+
       isPlayerDragging.value = true
       const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
       const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
-      
+
       playerDragOffset.value = {
         x: clientX - playerPos.value.x,
         y: clientY - playerPos.value.y
       }
-      
+
       window.addEventListener('mousemove', onPlayerDrag)
       window.addEventListener('mouseup', stopPlayerDrag)
       window.addEventListener('touchmove', onPlayerDrag, { passive: false })
@@ -276,15 +284,26 @@ export default {
     const onPlayerDrag = (e) => {
       if (!isPlayerDragging.value) return
       if (e.type === 'touchmove') {
-         e.preventDefault() 
+         e.preventDefault()
       }
-      
+
       const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
       const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
-      
+
+      let newX = clientX - playerDragOffset.value.x
+      let newY = clientY - playerDragOffset.value.y
+
+      // 动态获取播放器实际尺寸（约 320x70）
+      const playerEl = document.querySelector('.player-widget')
+      const width = playerEl ? playerEl.offsetWidth : 320
+      const height = playerEl ? playerEl.offsetHeight : 70
+
+      // 应用边界约束
+      const constrained = constrainToViewport({ x: newX, y: newY }, width, height)
+
       playerPos.value = {
-        x: clientX - playerDragOffset.value.x,
-        y: clientY - playerDragOffset.value.y
+        x: constrained.x,
+        y: constrained.y
       }
     }
 
@@ -303,9 +322,8 @@ export default {
       if (saved) {
         try {
           lyricsPos.value = JSON.parse(saved)
-          // Ensure it's within viewport (simple check)
-          if (lyricsPos.value.x > window.innerWidth) lyricsPos.value.x = window.innerWidth - 200
-          if (lyricsPos.value.y > window.innerHeight) lyricsPos.value.y = window.innerHeight - 100
+          // 使用合理的默认尺寸进行边界检查（歌词容器约 250x80）
+          lyricsPos.value = constrainToViewport(lyricsPos.value, 250, 80)
         } catch (e) {
           console.error(e)
         }
@@ -323,12 +341,12 @@ export default {
       isDragging.value = true
       const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
       const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
-      
+
       dragOffset.value = {
         x: clientX - lyricsPos.value.x,
         y: clientY - lyricsPos.value.y
       }
-      
+
       window.addEventListener('mousemove', onDrag)
       window.addEventListener('mouseup', stopDrag)
       window.addEventListener('touchmove', onDrag, { passive: false })
@@ -338,15 +356,26 @@ export default {
     const onDrag = (e) => {
       if (!isDragging.value) return
       if (e.type === 'touchmove') {
-         e.preventDefault() 
+         e.preventDefault()
       }
-      
+
       const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
       const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
-      
+
+      let newX = clientX - dragOffset.value.x
+      let newY = clientY - dragOffset.value.y
+
+      // 动态获取歌词容器实际尺寸（约 250x80）
+      const lyricsEl = document.querySelector('.lyrics-container')
+      const width = lyricsEl ? lyricsEl.offsetWidth : 250
+      const height = lyricsEl ? lyricsEl.offsetHeight : 80
+
+      // 应用边界约束
+      const constrained = constrainToViewport({ x: newX, y: newY }, width, height)
+
       lyricsPos.value = {
-        x: clientX - dragOffset.value.x,
-        y: clientY - dragOffset.value.y
+        x: constrained.x,
+        y: constrained.y
       }
     }
 
@@ -631,7 +660,7 @@ export default {
       initLyricsPosition()
       initPlayerPosition()
       initLyricsSettings()
-      
+
       const savedLyricsVisible = localStorage.getItem('lyrics-visible')
       if (savedLyricsVisible !== null) {
         showLyrics.value = savedLyricsVisible === 'true'
@@ -642,6 +671,16 @@ export default {
         audioRef.value.volume = volume.value
       }
       window.addEventListener('click', handleClickOutside)
+
+      // 窗口大小改变时自动校正位置
+      const handleResize = () => {
+        // 播放器位置校正
+        playerPos.value = constrainToViewport(playerPos.value, 320, 70)
+        // 歌词位置校正
+        lyricsPos.value = constrainToViewport(lyricsPos.value, 250, 80)
+      }
+
+      window.addEventListener('resize', handleResize)
     })
 
     onBeforeUnmount(() => {
