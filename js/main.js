@@ -1,41 +1,13 @@
-// 性能优化工具函数
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    }
-}
-
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
+// 使用统一的工具函数模块（定义在 utils.js）
+// 此文件保留用于特定页面的增强功能
 
 // 等待DOM加载完成
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化
-    initThemeSwitch();
-    initNavigation();
-    initSkillsAnimation();
-    initProjectFilters();
+    // 仅初始化当前页面实际存在的功能模块
+    // 注意：大部分UI组件已由 modern.js 负责初始化
+    // 此文件保留作为备用或特定页面的增强功能
+
     initContactForm();
-    initScrollAnimation();
-    initScrollIndicator();
-    initPreloader();
-    initImageLazyLoading();
     initBackToTop();
 });
 
@@ -49,7 +21,7 @@ function initBackToTop() {
     document.body.appendChild(backToTopBtn);
     
     // 节流处理滚动事件
-    const handleScroll = throttle(() => {
+    const handleScroll = Utils.throttle(() => {
         if (window.pageYOffset > 300) {
             backToTopBtn.classList.add('show');
         } else {
@@ -118,7 +90,7 @@ function initNavigation() {
     });
     
     // 滚动时导航栏效果（使用节流优化性能）
-    const handleScroll = throttle(function() {
+    const handleScroll = Utils.throttle(function() {
         const header = document.querySelector('header');
         header.classList.toggle('sticky', window.scrollY > 0);
         
@@ -216,7 +188,7 @@ function initContactForm() {
     const submitBtn = form.querySelector('button[type="submit"]');
     
     // 防抖验证
-    const debouncedValidate = debounce(validateField, 300);
+    const debouncedValidate = Utils.debounce(validateField, 300);
     
     inputs.forEach(input => {
         input.addEventListener('blur', validateField);
@@ -240,7 +212,7 @@ function initContactForm() {
             return false;
         }
         
-        if (field.type === 'email' && !isValidEmail(value)) {
+        if (field.type === 'email' && !Utils.isValidEmail(value)) {
             showError(field, '请输入有效的邮箱地址');
             return false;
         }
@@ -279,11 +251,6 @@ function initContactForm() {
         successElement.className = 'success-message';
         successElement.innerHTML = '<i class="fas fa-check"></i>';
         field.parentElement.appendChild(successElement);
-    }
-    
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
     }
     
     function handleSubmit(e) {
@@ -382,7 +349,7 @@ function initScrollAnimation() {
 function initScrollIndicator() {
     const scrollIndicator = document.querySelector('.scroll-indicator');
     
-    const updateScrollIndicator = throttle(() => {
+    const updateScrollIndicator = Utils.throttle(() => {
         const scrollTop = window.pageYOffset;
         const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
         const scrollPercent = Math.min((scrollTop / documentHeight) * 100, 100);

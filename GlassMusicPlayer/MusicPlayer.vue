@@ -102,19 +102,19 @@
             <span class="song-artist" v-if="currentSong?.artist">- {{ currentSong.artist }}</span>
           </div>
           <div class="controls">
-            <button class="icon-btn" @click.stop="prev" title="Previous">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
+            <button class="icon-btn" @click.stop="prev" title="上一首" aria-label="上一首">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" y1="19" x2="5" y2="5"/></svg>
             </button>
-            <button class="icon-btn" @click.stop="togglePlay" title="Play/Pause">
-               <svg v-if="!isPlaying" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-               <svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            <button class="icon-btn" @click.stop="togglePlay" :title="isPlaying ? '暂停' : '播放'" :aria-label="isPlaying ? '暂停' : '播放'">
+               <svg v-if="!isPlaying" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+               <svg v-else aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
             </button>
-            <button class="icon-btn" @click.stop="next" title="Next">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+            <button class="icon-btn" @click.stop="next" title="下一首" aria-label="下一首">
+              <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
             </button>
 
             <!-- Volume Control (Vertical) -->
-            <div class="volume-control-wrapper" @mouseenter.stop="showVolumeSlider = true" @mouseleave.stop="showVolumeSlider = false">
+            <div class="volume-control-wrapper" @mouseenter.stop="showVolumeSlider = true" @mouseleave.stop="showVolumeSlider = false" role="group" aria-label="音量控制">
               <transition name="fade">
                 <div class="volume-slider-container" v-show="showVolumeSlider">
                    <div class="volume-track">
@@ -126,22 +126,25 @@
                         step="0.01"
                         v-model.number="volume"
                         class="volume-slider-vertical"
-                        title="Volume"
+                        :aria-label="`音量 ${Math.round(volume * 100)}%`"
+                        :aria-valuenow="Math.round(volume * 100)"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
                         @mousedown.stop
                       >
                    </div>
                 </div>
               </transition>
-              <button class="icon-btn" @click.stop="toggleMute" title="Mute/Unmute">
-                <svg v-if="volume > 0" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                <svg v-else xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+              <button class="icon-btn" @click.stop="toggleMute" :title="volume > 0 ? '静音' : '取消静音'" :aria-label="volume > 0 ? '静音' : '取消静音'">
+                <svg v-if="volume > 0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <svg v-else aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
               </button>
             </div>
 
             <!-- More Menu Button -->
             <div class="more-control-wrapper" ref="moreMenuRef">
-              <button class="icon-btn" @click.stop="toggleMoreMenu" :class="{ active: showMoreMenu }" title="More">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+              <button class="icon-btn" @click.stop="toggleMoreMenu" :class="{ active: showMoreMenu }" title="更多选项" aria-label="更多选项" :aria-expanded="showMoreMenu">
+                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
               </button>
 
               <transition name="fade-slide-up">
@@ -150,6 +153,13 @@
                       <span class="menu-icon text-icon">词</span>
                       <span class="menu-text">桌面歌词</span>
                       <div class="menu-toggle" :class="{ active: showLyrics }"></div>
+                   </div>
+                   <div class="more-menu-item" @click.stop="toggleShuffle">
+                      <span class="menu-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+                      </span>
+                      <span class="menu-text">随机播放</span>
+                      <div class="menu-toggle" :class="{ active: shuffleMode }"></div>
                    </div>
                    <div class="more-menu-item" @click.stop="togglePlaylist">
                       <span class="menu-icon">
@@ -164,9 +174,18 @@
         </div>
 
         <!-- Progress Bar -->
-        <div class="progress-container" @click.stop="seek">
+        <div
+          class="progress-container"
+          @click.stop="seek"
+          role="slider"
+          :aria-label="`播放进度 ${Math.round(progress)}%`"
+          :aria-valuenow="Math.round(progress)"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          tabindex="0"
+        >
           <div class="progress-bg">
-            <div class="progress-fill" :style="{ width: progress + '%' }"></div>
+            <div class="progress-fill" :style="{ transform: `scaleX(${progress / 100})` }"></div>
           </div>
         </div>
       </div>
@@ -200,11 +219,22 @@
         </ul>
       </div>
     </transition>
+
+    <!-- Toast Notification (fix P13) -->
+    <transition name="toast-fade">
+      <div
+        v-if="toastVisible"
+        class="toast-notification"
+        :class="[`toast-${toastType}`]"
+      >
+        {{ toastMessage }}
+      </div>
+    </transition>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch, nextTick } from 'vue'
 
 const audioRef = ref(null)
 const isPlaying = ref(false)
@@ -214,11 +244,68 @@ const progress = ref(0)
 const showPlaylist = ref(false)
 const showLyrics = ref(true)
 const loopMode = ref('all')
+const shuffleMode = ref(false)  // 新增：随机播放模式
 const volume = ref(0.7)
 const lastVolume = ref(0.7)
 const showVolumeSlider = ref(false)
 const showMoreMenu = ref(false)
 const moreMenuRef = ref(null)
+
+// Resize handler (component scope for cleanup)
+let handleResize = null
+
+// AbortController for cancelling pending requests (fix P4)
+let lyricsAbortController = null
+
+// ==================== Configuration Constants (fix P5, P9) ====================
+const CONFIG = {
+  API_BASE_URL: 'https://api.i-meto.com/meting/api',
+  DEFAULT_PLAYLIST_ID: '7650673579',
+  PLAYER_WIDTH: 320,
+  PLAYER_HEIGHT: 70,
+  LYRICS_WIDTH: 250,
+  LYRICS_HEIGHT: 80,
+  DEFAULT_MARGIN: 24,
+  SEEK_STEP_SECONDS: 5,
+  VOLUME_STEP: 0.1,
+  UPDATE_THROTTLE_MS: 100,
+  ERROR_RETRY_DELAY_MS: 1000
+}
+
+const ALLOWED_URL_PROTOCOLS = ['https:', 'data:']
+
+// Throttle utility (for performance optimization)
+const throttle = (func, limit) => {
+  let inThrottle = null
+  return function(...args) {
+    if (!inThrottle) {
+      func.apply(this, args)
+      inThrottle = true
+      setTimeout(() => inThrottle = false, limit)
+    }
+  }
+}
+
+// Binary search for lyrics (O(log n) instead of O(n))
+const findLyricIndexByTime = (currentTime, lyricsArray) => {
+  if (!lyricsArray || lyricsArray.length === 0) return -1
+
+  let left = 0
+  let right = lyricsArray.length - 1
+  let result = -1
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2)
+    if (lyricsArray[mid].time <= currentTime) {
+      result = mid
+      left = mid + 1
+    } else {
+      right = mid - 1
+    }
+  }
+
+  return result
+}
 
 // Lyrics state
 const lyrics = ref([])
@@ -243,6 +330,23 @@ const lyricsSettings = ref({
   fontSize: 24,
   color: '#ffffff'
 })
+
+// Toast notification system (fix P13)
+const toastVisible = ref(false)
+const toastMessage = ref('')
+const toastType = ref('info') // 'info', 'error', 'success'
+let toastTimer = null
+
+const showToast = (message, type = 'info', duration = 3000) => {
+  toastMessage.value = message
+  toastType.value = type
+  toastVisible.value = true
+
+  if (toastTimer) clearTimeout(toastTimer)
+  toastTimer = setTimeout(() => {
+    toastVisible.value = false
+  }, duration)
+}
 
 // Computed styles with boundary constraints
 const playerStyle = computed(() => ({
@@ -282,7 +386,7 @@ const initPositions = () => {
   try {
     const savedPlayer = localStorage.getItem('player-position')
     if (savedPlayer) {
-      playerPos.value = constrainToViewport(JSON.parse(savedPlayer), 320, 70)
+      playerPos.value = constrainToViewport(JSON.parse(savedPlayer), CONFIG.PLAYER_WIDTH, CONFIG.PLAYER_HEIGHT)
     }
   } catch (e) {
     // Use default position
@@ -292,7 +396,7 @@ const initPositions = () => {
   try {
     const savedLyrics = localStorage.getItem('lyrics-position')
     if (savedLyrics) {
-      lyricsPos.value = constrainToViewport(JSON.parse(savedLyrics), 250, 80)
+      lyricsPos.value = constrainToViewport(JSON.parse(savedLyrics), CONFIG.LYRICS_WIDTH, CONFIG.LYRICS_HEIGHT)
     }
   } catch (e) {
     // Set default based on screen size
@@ -325,6 +429,9 @@ const startPlayerDrag = (e) => {
   // Prevent drag on controls
   if (e.target.closest('button') || e.target.closest('input') || e.target.closest('.progress-container')) return
 
+  // Prevent duplicate listeners (fix P3)
+  stopPlayerDrag()
+
   isPlayerDragging.value = true
   const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
   const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
@@ -352,7 +459,7 @@ const onPlayerDrag = (e) => {
     y: clientY - playerDragOffset.value.y
   }
 
-  playerPos.value = constrainToViewport(newPos, 320, 70)
+  playerPos.value = constrainToViewport(newPos, CONFIG.PLAYER_WIDTH, CONFIG.PLAYER_HEIGHT)
 }
 
 const stopPlayerDrag = () => {
@@ -367,6 +474,9 @@ const stopPlayerDrag = () => {
 
 // Lyrics drag handlers
 const startLyricsDrag = (e) => {
+  // Prevent duplicate listeners (fix P3)
+  stopLyricsDrag()
+
   isLyricsDragging.value = true
   const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX
   const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY
@@ -394,7 +504,7 @@ const onLyricsDrag = (e) => {
     y: clientY - lyricsDragOffset.value.y
   }
 
-  lyricsPos.value = constrainToViewport(newPos, 250, 80)
+  lyricsPos.value = constrainToViewport(newPos, CONFIG.LYRICS_WIDTH, CONFIG.LYRICS_HEIGHT)
 }
 
 const stopLyricsDrag = () => {
@@ -414,19 +524,37 @@ const currentSong = computed(() => {
 
 const fetchPlaylist = async () => {
   try {
-    const res = await fetch('https://api.i-meto.com/meting/api?server=netease&type=playlist&id=7650673579')
+    const url = `${CONFIG.API_BASE_URL}?server=netease&type=playlist&id=${CONFIG.DEFAULT_PLAYLIST_ID}`
+    const res = await fetch(url)
     const data = await res.json()
     if (Array.isArray(data)) {
       playlist.value = data.map(item => ({
         name: item.title,
         artist: item.author,
-        url: item.url,
-        cover: item.pic,
-        lrc: item.lrc
+        url: sanitizeUrl(item.url), // URL validation (fix P10)
+        cover: sanitizeUrl(item.pic),
+        lrc: sanitizeUrl(item.lrc)
       }))
     }
   } catch (err) {
     console.error('Failed to fetch playlist:', err)
+    showToast('获取播放列表失败，请检查网络连接', 'error')
+  }
+}
+
+// URL sanitization utility (fix P10)
+const sanitizeUrl = (url) => {
+  if (!url) return ''
+  try {
+    const parsed = new URL(url, location.href)
+    if (!ALLOWED_URL_PROTOCOLS.includes(parsed.protocol)) {
+      console.warn('Blocked insecure URL:', url)
+      return ''
+    }
+    return url
+  } catch (e) {
+    console.warn('Invalid URL:', url)
+    return ''
   }
 }
 
@@ -455,6 +583,11 @@ const parseLRC = (lrcContent) => {
 }
 
 const fetchLyrics = async (url) => {
+  // Cancel previous request if exists (fix P4)
+  if (lyricsAbortController) {
+    lyricsAbortController.abort()
+  }
+
   lyrics.value = []
   currentLyric.value = ''
   nextLyric.value = ''
@@ -462,12 +595,21 @@ const fetchLyrics = async (url) => {
 
   if (!url) return
 
+  // Create new AbortController for this request
+  lyricsAbortController = new AbortController()
+
   try {
-    const res = await fetch(url)
+    const res = await fetch(url, { signal: lyricsAbortController.signal })
     const text = await res.text()
     lyrics.value = parseLRC(text)
   } catch (err) {
-    console.error('Failed to fetch lyrics:', err)
+    // Ignore abort errors (user switched songs)
+    if (err.name !== 'AbortError') {
+      console.error('Failed to fetch lyrics:', err)
+      showToast('获取歌词失败', 'error')
+    }
+  } finally {
+    lyricsAbortController = null
   }
 }
 
@@ -494,60 +636,82 @@ const togglePlay = () => {
   isPlaying.value = !isPlaying.value
 }
 
-const playIndex = (index) => {
+const playIndex = async (index) => {
   if (index < 0 || index >= playlist.value.length) return
   currentIndex.value = index
   isPlaying.value = true
-  setTimeout(() => {
-    if (audioRef.value) {
-      audioRef.value.play().catch(e => console.error(e))
-    }
-  }, 50)
+
+  // Use nextTick instead of setTimeout for reliable DOM update timing
+  await nextTick()
+  if (audioRef.value) {
+    audioRef.value.play().catch(e => console.error('Play error:', e))
+  }
 }
 
 const next = () => {
-  let nextIndex = currentIndex.value + 1
-  if (nextIndex >= playlist.value.length) {
-    nextIndex = 0
+  if (playlist.value.length === 0) return
+
+  let nextIndex
+  if (shuffleMode.value) {
+    // Shuffle mode: pick random index different from current
+    do {
+      nextIndex = Math.floor(Math.random() * playlist.value.length)
+    } while (nextIndex === currentIndex.value && playlist.value.length > 1)
+  } else {
+    // Normal mode: next song (loop to beginning if at end)
+    nextIndex = currentIndex.value + 1
+    if (nextIndex >= playlist.value.length) {
+      nextIndex = 0
+    }
   }
   playIndex(nextIndex)
 }
 
 const prev = () => {
-  let prevIndex = currentIndex.value - 1
-  if (prevIndex < 0) {
-    prevIndex = playlist.value.length - 1
+  if (playlist.value.length === 0) return
+
+  let prevIndex
+  if (shuffleMode.value) {
+    // Shuffle mode: pick random previous song
+    do {
+      prevIndex = Math.floor(Math.random() * playlist.value.length)
+    } while (prevIndex === currentIndex.value && playlist.value.length > 1)
+  } else {
+    // Normal mode: previous song (loop to end if at beginning)
+    prevIndex = currentIndex.value - 1
+    if (prevIndex < 0) {
+      prevIndex = playlist.value.length - 1
+    }
   }
   playIndex(prevIndex)
 }
 
+// Toggle shuffle mode
+const toggleShuffle = () => {
+  shuffleMode.value = !shuffleMode.value
+}
+
 // Audio event handlers
 const onEnded = () => {
+  if (!audioRef.value) return
   if (loopMode.value === 'one') {
     audioRef.value.currentTime = 0
-    audioRef.value.play()
+    audioRef.value.play().catch(e => console.error('Replay error:', e))
   } else {
     next()
   }
 }
 
-const onTimeUpdate = () => {
+const onTimeUpdate = throttle(() => {
   if (!audioRef.value) return
   const { currentTime, duration } = audioRef.value
   if (duration) {
     progress.value = (currentTime / duration) * 100
   }
 
-  // Update Lyrics
+  // Update Lyrics (using binary search for O(log n) performance)
   if (lyrics.value.length > 0) {
-    let activeIndex = -1
-    for (let i = 0; i < lyrics.value.length; i++) {
-      if (currentTime >= lyrics.value[i].time) {
-        activeIndex = i
-      } else {
-        break
-      }
-    }
+    const activeIndex = findLyricIndexByTime(currentTime, lyrics.value)
 
     if (activeIndex !== lyricIndex.value) {
       lyricIndex.value = activeIndex
@@ -564,7 +728,7 @@ const onTimeUpdate = () => {
       }
     }
   }
-}
+}, 100) // Throttle to ~10fps for better performance
 
 const seek = (e) => {
   if (!audioRef.value || !currentSong.value) return
@@ -582,14 +746,20 @@ const seek = (e) => {
 
 const onCanPlay = () => {
   if (isPlaying.value && audioRef.value) {
-    audioRef.value.play().catch(e => {})
+    const playPromise = audioRef.value.play()
+    if (playPromise !== undefined) {
+      playPromise.catch(e => {
+        console.warn('Auto-play prevented by browser, waiting for user interaction')
+      })
+    }
   }
 }
 
 const onError = () => {
   console.error("Audio error")
+  showToast('音频播放出错，正在尝试下一首...', 'error')
   if (isPlaying.value) {
-    setTimeout(next, 1000)
+    setTimeout(next, CONFIG.ERROR_RETRY_DELAY_MS)
   }
 }
 
@@ -637,6 +807,48 @@ const handleClickOutside = (e) => {
   }
 }
 
+// Keyboard shortcuts handler (fix P6)
+const handleKeydown = (e) => {
+  // Ignore if user is typing in an input
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return
+
+  switch (e.code) {
+    case 'Space':
+      e.preventDefault()
+      togglePlay()
+      break
+    case 'ArrowLeft':
+      e.preventDefault()
+      if (audioRef.value) {
+        audioRef.value.currentTime = Math.max(0, audioRef.value.currentTime - 5)
+      }
+      break
+    case 'ArrowRight':
+      e.preventDefault()
+      if (audioRef.value) {
+        audioRef.value.currentTime = Math.min(audioRef.value.duration || 0, audioRef.value.currentTime + 5)
+      }
+      break
+    case 'ArrowUp':
+      e.preventDefault()
+      volume.value = Math.min(1, volume.value + 0.1)
+      break
+    case 'ArrowDown':
+      e.preventDefault()
+      volume.value = Math.max(0, volume.value - 0.1)
+      break
+    case 'KeyM':
+      toggleMute()
+      break
+    case 'KeyL':
+      toggleLyrics()
+      break
+    case 'KeyS':
+      toggleShuffle()
+      break
+  }
+}
+
 watch(volume, (newVal) => {
   if (audioRef.value) {
     audioRef.value.volume = newVal
@@ -654,17 +866,19 @@ onMounted(() => {
     audioRef.value.volume = volume.value
   }
   window.addEventListener('click', handleClickOutside)
+  window.addEventListener('keydown', handleKeydown) // Add keyboard shortcuts (fix P6)
 
   // Handle window resize to keep elements in viewport
-  const handleResize = () => {
-    playerPos.value = constrainToViewport(playerPos.value, 320, 70)
-    lyricsPos.value = constrainToViewport(lyricsPos.value, 250, 80)
+  handleResize = () => {
+    playerPos.value = constrainToViewport(playerPos.value, CONFIG.PLAYER_WIDTH, CONFIG.PLAYER_HEIGHT)
+    lyricsPos.value = constrainToViewport(lyricsPos.value, CONFIG.LYRICS_WIDTH, CONFIG.LYRICS_HEIGHT)
   }
 
   window.addEventListener('resize', handleResize)
 })
 
 onBeforeUnmount(() => {
+  // Cleanup drag event listeners
   window.removeEventListener('mousemove', onPlayerDrag)
   window.removeEventListener('mouseup', stopPlayerDrag)
   window.removeEventListener('touchmove', onPlayerDrag)
@@ -673,7 +887,22 @@ onBeforeUnmount(() => {
   window.removeEventListener('mouseup', stopLyricsDrag)
   window.removeEventListener('touchmove', onLyricsDrag)
   window.removeEventListener('touchend', stopLyricsDrag)
+
+  // Cleanup other listeners
   window.removeEventListener('click', handleClickOutside)
+  window.removeEventListener('keydown', handleKeydown) // Cleanup keyboard shortcuts (fix P6)
+
+  // Cleanup resize listener (fix memory leak M1)
+  if (handleResize) {
+    window.removeEventListener('resize', handleResize)
+    handleResize = null
+  }
+
+  // Cancel any pending lyrics fetch requests
+  if (lyricsAbortController) {
+    lyricsAbortController.abort()
+    lyricsAbortController = null
+  }
 })
 </script>
 
@@ -700,11 +929,9 @@ onBeforeUnmount(() => {
   max-height: calc(100vh - 96px);
   overflow: hidden;
 
-  /* Glassmorphism */
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Glassmorphism with fallback (fix P11) */
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
 
@@ -712,6 +939,16 @@ onBeforeUnmount(() => {
   user-select: none;
   touch-action: none;
   transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+}
+
+/* Enhanced glass effect for modern browsers */
+@supports (backdrop-filter: blur(12px)) {
+  .lyrics-container {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
 }
 
 .lyrics-container:active {
@@ -798,16 +1035,24 @@ onBeforeUnmount(() => {
 .player-widget {
   display: flex;
   align-items: center;
-  background: var(--bg-secondary, #fff);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border-color, #eee);
+  background: var(--bg-secondary, rgba(255, 255, 255, 0.95));
+  border: 1px solid var(--border-color, rgba(200, 200, 200, 0.3));
   border-radius: 999px;
   padding: 8px 12px 8px 8px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   max-width: 480px;
   width: fit-content;
+}
+
+/* Enhanced glass effect for modern browsers */
+@supports (backdrop-filter: blur(12px)) {
+  .player-widget {
+    background: var(--bg-secondary, #fff);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-color: var(--border-color, #eee);
+  }
 }
 
 [data-theme="dark"] .player-widget {
@@ -1139,7 +1384,10 @@ onBeforeUnmount(() => {
   height: 100%;
   background: var(--link-color, #000);
   border-radius: 2px;
-  transition: width 0.1s linear;
+  /* Use transform for GPU-accelerated rendering (fix P12) */
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.1s linear;
 }
 
 /* Playlist Panel */
@@ -1367,5 +1615,48 @@ input[type="color"]::-webkit-color-swatch-wrapper {
 input[type="color"]::-webkit-color-swatch {
   border: 1px solid rgba(0,0,0,0.1);
   border-radius: 50%;
+}
+
+/* Toast Notification (fix P13) */
+.toast-notification {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 10001;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.toast-info {
+  background: rgba(59, 130, 246, 0.95);
+  color: #fff;
+}
+
+.toast-error {
+  background: rgba(239, 68, 68, 0.95);
+  color: #fff;
+}
+
+.toast-success {
+  background: rgba(34, 197, 94, 0.95);
+  color: #fff;
+}
+
+/* Toast Animation */
+.toast-fade-enter-active,
+.toast-fade-leave-active {
+  transition: all 0.3s ease;
+}
+
+.toast-fade-enter-from,
+.toast-fade-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(20px);
 }
 </style>

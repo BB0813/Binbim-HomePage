@@ -167,19 +167,21 @@ function initCardGlow() {
 
 // 滚动效果
 function initScrollEffects() {
-    // 视差效果（简化版）
+    // 视差效果（简化版）- 使用节流优化
     const heroImage = document.querySelector('.hero-image');
-    
-    window.addEventListener('scroll', function() {
+
+    const handleParallax = Utils.throttle(function() {
         const scrolled = window.pageYOffset;
         const rate = scrolled * -0.5;
-        
+
         if (heroImage) {
             heroImage.style.transform = `translateY(${rate}px)`;
         }
-    });
-    
-    // 滚动显示/隐藏元素
+    }, 16); // ~60fps
+
+    window.addEventListener('scroll', handleParallax, { passive: true });
+
+    // 滚动显示/隐藏元素 - 使用节流优化
     const scrollElements = document.querySelectorAll('.section-header');
     const elementInView = (el, dividend = 1) => {
         const elementTop = el.getBoundingClientRect().top;
@@ -188,22 +190,20 @@ function initScrollEffects() {
             (window.innerHeight || document.documentElement.clientHeight) / dividend
         );
     };
-    
+
     const displayScrollElement = (element) => {
         element.classList.add('scrolled');
     };
-    
-    const handleScrollAnimation = () => {
+
+    const handleScrollAnimation = Utils.throttle(() => {
         scrollElements.forEach((el) => {
             if (elementInView(el, 1.25)) {
                 displayScrollElement(el);
             }
         });
-    };
-    
-    window.addEventListener('scroll', () => {
-        handleScrollAnimation();
-    });
+    }, 100); // 100ms 节流，动画不需要太频繁
+
+    window.addEventListener('scroll', handleScrollAnimation, { passive: true });
 }
 
 function initFriendIcons() {
@@ -382,38 +382,13 @@ function showNotification(message, type = 'info') {
     }, 5000);
 }
 
-// 工具函数
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-function throttle(func, limit) {
-    let inThrottle;
-    return function() {
-        const args = arguments;
-        const context = this;
-        if (!inThrottle) {
-            func.apply(context, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    };
-}
-
+// 使用统一的工具函数模块（定义在 utils.js）
 // 性能优化
-const debouncedScroll = debounce(function() {
+const debouncedScroll = Utils.debounce(function() {
     // 滚动相关的性能敏感操作
 }, 16); // ~60fps
 
-const throttledResize = throttle(function() {
+const throttledResize = Utils.throttle(function() {
     // 窗口大小改变的性能敏感操作
 }, 250);
 
@@ -466,21 +441,40 @@ function initFriendsData() {
     const grid = document.getElementById('friends-grid');
     if (!grid) return;
     grid.innerHTML = '<div class="friend-loading">正在加载友链...</div>';
+
+    const escapeHtml = (text) => String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+
+    const escapeUrl = (url) => {
+        try {
+            new URL(url);
+            return encodeURI(url);
+        } catch {
+            return '#invalid-url';
+        }
+    };
+
     fetch('friends.json')
         .then(res => res.ok ? res.json() : Promise.reject())
         .then(list => {
             if (!Array.isArray(list)) return;
             grid.innerHTML = list.map(item => {
                 const icons = Array.isArray(item.icons) ? item.icons : [];
-                const first = icons[0] || 'images/project1.svg';
-                const srcs = icons.join(', ');
+                const first = escapeUrl(icons[0] || 'images/project1.svg');
+                const srcs = icons.map(escapeUrl).join(', ');
+                const name = escapeHtml(item.name || '未知');
+                const desc = escapeHtml(item.desc || '');
+                const url = escapeUrl(item.url || '#');
                 return `
                 <div class="friend-card">
-                    <img class="friend-logo" ${srcs ? `data-icon-srcs="${srcs}"` : ''} src="${first}" alt="${item.name}" loading="lazy">
+                    <img class="friend-logo" ${srcs ? `data-icon-srcs="${srcs}"` : ''} src="${first}" alt="${name}" loading="lazy">
                     <div class="friend-info">
-                        <h4 class="friend-title">${item.name}</h4>
-                        <p class="friend-desc">${item.desc || ''}</p>
-                        <a class="friend-link" href="${item.url}" target="_blank" rel="noopener noreferrer">访问</a>
+                        <h4 class="friend-title">${name}</h4>
+                        <p class="friend-desc">${desc}</p>
+                        <a class="friend-link" href="${url}" target="_blank" rel="noopener noreferrer">访问</a>
                     </div>
                 </div>`;
             }).join('');

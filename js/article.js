@@ -50,7 +50,7 @@ async function loadArticles() {
         }
         articleState.loadFailed = true;
         console.error('加载 articles.json 失败:', error);
-        renderLoadError();
+        renderLoadError(error);
         return [];
     }
 }
@@ -134,7 +134,7 @@ function renderArticleList() {
     }
 
     listElement.innerHTML = pageArticles.map(article => {
-        const activeClass = article.id === articleState.activeId ? 'active' '';
+        const activeClass = article.id === articleState.activeId ? 'active' : '';
         const tags = Array.isArray(article.tags) ? article.tags : [];
         return `
             <article class="article-card ${activeClass}" data-id="${ArticleUtils.escapeHtml(article.id)}">
@@ -261,24 +261,43 @@ function renderStats(filteredCount) {
     statsElement.textContent = `已发布 ${publishedCount} 篇 · 草稿 ${draftCount} 篇 · 当前结果 ${filteredCount} 篇（${visibilityText}）`;
 }
 
-function renderLoadError() {
+function renderLoadError(error = null) {
     const listElement = document.getElementById('article-list');
     const readerElement = document.getElementById('article-reader');
     const pagination = document.getElementById('article-pagination');
     const statsElement = document.getElementById('article-stats');
+    
+    const errorMessage = error ? `加载失败: ${error.message}` : '文章数据加载失败';
+    const isNetworkError = error && (error.name === 'TypeError' || error.message.includes('fetch'));
+    
     if (pagination) pagination.innerHTML = '';
-    if (statsElement) statsElement.textContent = '文章数据加载失败';
+    if (statsElement) statsElement.textContent = errorMessage;
+    
     if (listElement) {
-        listElement.innerHTML = '<div class="article-empty">文章数据加载失败，请稍后刷新重试。</div>';
+        listElement.innerHTML = `
+            <div class="article-empty">
+                <i data-lucide="alert-triangle"></i>
+                <p>${errorMessage}</p>
+                <p style="margin-top: 0.5rem; font-size: 0.9rem; color: #666;">
+                    ${isNetworkError ? '可能是网络问题或文件路径错误' : '请检查数据文件格式是否正确'}
+                </p>
+                <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--primary-color); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
+                    重新加载
+                </button>
+            </div>
+        `;
     }
+    
     if (readerElement) {
         readerElement.innerHTML = `
             <div class="reader-placeholder">
                 <i data-lucide="alert-triangle"></i>
                 <p>暂时无法读取文章内容。</p>
+                ${isNetworkError ? '<p style="font-size: 0.85rem; color: #999; margin-top: 0.5rem;">提示：请确保在 HTTP 服务器环境下运行，不要直接打开 HTML 文件</p>' : ''}
             </div>
         `;
     }
+    
     ArticleUtils.refreshIcons();
 }
 
